@@ -29,6 +29,17 @@
                                 asp-action="Privacy">Privacy</a>
                         </li>
 
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Uploads"
+                                asp-action="Create">Uploads</a>
+                            </li>
+                        }
+
+                    </ul>
+
+                    <ul class="navbar-nav align-right">
                         @if (!User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
@@ -47,8 +58,8 @@
                                 asp-action="Logout">Logout</a>
                             </li>
                         }
-
                     </ul>
+
                 </div>
             </div>
         </nav>

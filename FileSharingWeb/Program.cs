@@ -1,5 +1,8 @@
 using FileSharingWeb.Data;
 using FileSharingWeb.Extensions;
+using FileSharingWeb.Helpers;
+using FileSharingWeb.Interfaces.Services;
+using FileSharingWeb.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,8 +15,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
 });
 
+builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
 builder.Services.AddIdentityService();
-
+builder.Services.AddScoped<IFileUploadService, FileUploadService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
