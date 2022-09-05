@@ -46,9 +46,23 @@ namespace FileSharingWeb.Services
 
 
 
-        public Task<VideoUploadResult> UploadVideoAsync(IFormFile video)
+        public async Task<VideoUploadResult> UploadVideoAsync(IFormFile video)
         {
-            throw new NotImplementedException();
+            var uploadResult = new VideoUploadResult();
+
+            if (video.Length > 0)
+            {
+                using var stream = video.OpenReadStream();
+                var uploadParams = new VideoUploadParams()
+                {
+                    File = new FileDescription(video.FileName, stream),
+                    Folder = "FileSharingApp",
+                    Transformation = new Transformation().Height(360).Width(480).Quality(50).Crop("fill")
+                };
+
+                uploadResult = await _cloudinary.UploadAsync(uploadParams);
+            }
+            return uploadResult;
         }
     }
 }

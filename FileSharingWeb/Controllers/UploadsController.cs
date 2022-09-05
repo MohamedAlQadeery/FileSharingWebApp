@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using CloudinaryDotNet.Actions;
 using FileSharingWeb.Data;
 using FileSharingWeb.Extensions;
 using FileSharingWeb.Interfaces.Services;
@@ -25,6 +26,22 @@ namespace FileSharingWeb.Controllers
             _fileUploadService = fileUploadService;
 
         }
+
+        public IActionResult Index()
+        {
+            var uploads = _ctx.Uploads.Where(u => u.UserId == User.GetUserId()).Select(u => new UploadViewModel
+            {
+                FileName = u.FileName,
+                ContentType = u.ContentType,
+                uploadUrl = u.uploadUrl,
+                PublicId = u.PublicId,
+                Size = u.Size,
+                CreatedAt = u.CreatedAt
+
+            }).OrderByDescending(u => u.CreatedAt).ToList();
+            return View(uploads);
+        }
+
         public IActionResult Create()
         {
             return View();
@@ -34,7 +51,17 @@ namespace FileSharingWeb.Controllers
         public async Task<IActionResult> Create(FileInputVM fileInput)
         {
             if (!ModelState.IsValid) return View(fileInput);
-            var result = await _fileUploadService.UploadFileAsync(fileInput.File);
+
+            var result = new RawUploadResult();
+            if (fileInput.File.ContentType.Contains("video"))
+            {
+                result = await _fileUploadService.UploadVideoAsync(fileInput.File);
+            }
+            else
+            {
+                result = await _fileUploadService.UploadFileAsync(fileInput.File);
+            }
+
             if (result.Error != null)
             {
                 ModelState.AddModelError("", result.Error.Message);
@@ -56,6 +83,8 @@ namespace FileSharingWeb.Controllers
 
             return View();
         }
+
+
 
     }
 }
