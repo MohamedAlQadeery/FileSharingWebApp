@@ -11,6 +11,7 @@ using FileSharingWeb.Models;
 using FileSharingWeb.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace FileSharingWeb.Controllers
@@ -84,6 +85,48 @@ namespace FileSharingWeb.Controllers
             return View();
         }
 
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(string publicId)
+        {
+            var upload = await _ctx.Uploads.Where(u => u.PublicId == publicId).Select(u => new UploadViewModel
+            {
+                FileName = u.FileName,
+                ContentType = u.ContentType,
+                uploadUrl = u.uploadUrl,
+                PublicId = u.PublicId,
+                Size = u.Size,
+                CreatedAt = u.CreatedAt
+
+            }).FirstOrDefaultAsync();
+
+            if (upload == null) return NotFound();
+            return View(upload);
+
+        }
+        [HttpPost]
+        [ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirm(DeleteUploadVM deleteUploadVM)
+        {
+            var upload = _ctx.Uploads.Where(u => u.PublicId == deleteUploadVM.PublicId).FirstOrDefault();
+            if (upload == null)
+            {
+                return NotFound();
+            }
+
+            var resourceType = deleteUploadVM.ResourceType.Contains("video") ? ResourceType.Video : ResourceType.Image;
+            var result = await _fileUploadService.DeleteFileAsync(deleteUploadVM.PublicId, resourceType);
+            if (result.Error != null)
+            {
+                ModelState.AddModelError("", "Something went wrong");
+                return RedirectToAction("Index");
+
+            }
+            _ctx.Uploads.Remove(upload);
+            await _ctx.SaveChangesAsync();
+            return RedirectToAction("Index");
+
+        }
 
 
     }

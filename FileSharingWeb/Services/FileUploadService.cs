@@ -20,9 +20,16 @@ namespace FileSharingWeb.Services
             _cloudinary = new Cloudinary(account);
         }
 
-        public Task<DeletionParams> DeleteFileAsync(string publicId)
+        public async Task<DeletionResult> DeleteFileAsync(string publicId, ResourceType resourceType)
         {
-            throw new NotImplementedException();
+
+            var deletionParams = new DeletionParams(publicId)
+            {
+                ResourceType = resourceType
+            };
+
+            return await _cloudinary.DestroyAsync(deletionParams);
+
         }
 
         public async Task<ImageUploadResult> UploadFileAsync(IFormFile file)
@@ -64,5 +71,8 @@ namespace FileSharingWeb.Services
             }
             return uploadResult;
         }
+
+
+
     }
 }

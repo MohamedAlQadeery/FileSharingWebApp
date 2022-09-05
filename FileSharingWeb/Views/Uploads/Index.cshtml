@@ -6,6 +6,7 @@
 }
 
 <h1>Index</h1>
+<div asp-validation-summary="All" class="text-danger"></div>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -52,7 +53,7 @@
                     }
                     else
                     {
-                        <a href="@item.uploadUrl" target="_blank">Download here</a>
+                        <a href="@item.uploadUrl" target="_blank">Preview here</a>
                     }
 
                 </td>
@@ -61,9 +62,10 @@
                     @Html.DisplayFor(modelItem => item.CreatedAt)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    @* @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) | *@
+                    @* @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) | *@
+                    @Html.ActionLink("Delete","Delete",new {publicId = item.PublicId}) |
+
                 </td>
             </tr>
         }

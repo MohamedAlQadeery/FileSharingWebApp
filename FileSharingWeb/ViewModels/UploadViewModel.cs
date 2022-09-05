@@ -15,4 +15,12 @@ namespace FileSharingWeb.ViewModels
         public string PublicId { get; set; }
         public DateTime CreatedAt { get; set; }
     }
+
+
+    public class DeleteUploadVM
+    {
+        public string PublicId { get; set; }
+        public string ResourceType { get; set; }
+
+    }
 }

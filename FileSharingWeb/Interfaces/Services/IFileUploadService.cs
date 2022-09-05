@@ -11,6 +11,6 @@ namespace FileSharingWeb.Interfaces.Services
         Task<ImageUploadResult> UploadFileAsync(IFormFile file);
         Task<VideoUploadResult> UploadVideoAsync(IFormFile video);
 
-        Task<DeletionParams> DeleteFileAsync(string publicId);
+        Task<DeletionResult> DeleteFileAsync(string publicId, ResourceType resourceType);
     }
 }
