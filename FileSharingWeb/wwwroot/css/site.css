@@ -16,3 +16,10 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.card-img-upload{
+min-width: 369px;
+min-height: 145px;
+max-width: 369px;
+max-height: 145px;
+}

@@ -77,7 +77,7 @@ namespace FileSharingWeb.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginVM loginVM)
+        public async Task<IActionResult> Login(LoginVM loginVM, string returnUrl)
         {
             if (!ModelState.IsValid) return View(loginVM);
 
@@ -97,6 +97,10 @@ namespace FileSharingWeb.Controllers
                 return View(loginVM);
             }
 
+            if (!string.IsNullOrEmpty(returnUrl))
+            {
+                return LocalRedirect(returnUrl);
+            }
 
             return RedirectToAction("Index", "Home");
         }

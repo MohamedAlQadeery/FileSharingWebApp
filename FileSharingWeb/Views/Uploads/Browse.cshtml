@@ -1,0 +1,51 @@
+﻿@model IEnumerable<FileSharingWeb.ViewModels.UploadViewModel>
+
+@{
+    ViewData["Title"] = "Browse Uploads";
+}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-10">
+            <h1>Browse Uploads</h1>
+        </div>
+
+    </div>
+    <hr />
+
+
+    <div class="row">
+        @foreach (var file in Model)
+        {
+            <div class="card m-3 col-md-12">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        @if (file.ContentType.Contains("image"))
+                        {
+                            <img src="@file.uploadUrl" class="card-img-upload" height="100%" width="100%">
+                        }
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">@file.FileName</h5>
+                            @* <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
+                                additional content. This content is a little bit longer.</p> *@
+                            <p class="card-text"><small class="text-muted">@file.CreatedAt</small></p>
+                            <div class="text-end">
+                                <a class="btn btn-success" asp-action="Download"
+                                asp-route-fileName="@file.FileName">Download</a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+
+
+
+
+</div>

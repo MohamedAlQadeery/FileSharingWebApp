@@ -28,6 +28,7 @@ namespace FileSharingWeb.Controllers
 
         }
 
+
         public IActionResult Index()
         {
             var uploads = _ctx.Uploads.Where(u => u.UserId == User.GetUserId()).Select(u => new UploadViewModel
@@ -96,11 +97,13 @@ namespace FileSharingWeb.Controllers
                 uploadUrl = u.uploadUrl,
                 PublicId = u.PublicId,
                 Size = u.Size,
-                CreatedAt = u.CreatedAt
+                CreatedAt = u.CreatedAt,
+                UserId = u.UserId
+
 
             }).FirstOrDefaultAsync();
 
-            if (upload == null) return NotFound();
+            if (upload == null || upload.UserId != User.GetUserId()) return NotFound();
             return View(upload);
 
         }
@@ -109,7 +112,8 @@ namespace FileSharingWeb.Controllers
         public async Task<IActionResult> DeleteConfirm(DeleteUploadVM deleteUploadVM)
         {
             var upload = _ctx.Uploads.Where(u => u.PublicId == deleteUploadVM.PublicId).FirstOrDefault();
-            if (upload == null)
+
+            if (upload == null || upload.UserId != User.GetUserId())
             {
                 return NotFound();
             }
@@ -129,5 +133,61 @@ namespace FileSharingWeb.Controllers
         }
 
 
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Search(string term)
+        {
+            if (term == null)
+            {
+                TempData["search_empty"] = "File name cant be empty";
+                return RedirectToAction("Index", "Home");
+            }
+
+            var uploads = await _ctx.Uploads.Where(u => u.FileName.Contains(term)).Select(u => new UploadViewModel
+            {
+                FileName = u.FileName,
+                ContentType = u.ContentType,
+                uploadUrl = u.uploadUrl,
+                PublicId = u.PublicId,
+                Size = u.Size,
+                CreatedAt = u.CreatedAt
+
+            }).OrderByDescending(u => u.CreatedAt).ToListAsync();
+            ViewBag.term = term;
+            return View(uploads);
+        }
+
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> Browse()
+        {
+            var uploads = await _ctx.Uploads.Select(u => new UploadViewModel
+            {
+                FileName = u.FileName,
+                ContentType = u.ContentType,
+                uploadUrl = u.uploadUrl,
+                PublicId = u.PublicId,
+                Size = u.Size,
+                CreatedAt = u.CreatedAt
+
+            }).OrderByDescending(u => u.CreatedAt).ToListAsync();
+
+            return View(uploads);
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Download(string fileName)
+        {
+            var file = await _ctx.Uploads.FirstOrDefaultAsync(u => u.FileName == fileName);
+            if (file == null)
+            {
+                return NotFound();
+            }
+
+            return Redirect(file.uploadUrl);
+
+        }
     }
 }
