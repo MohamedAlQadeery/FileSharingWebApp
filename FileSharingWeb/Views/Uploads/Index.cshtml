@@ -5,75 +5,90 @@
     var imagesContentTypes = new[] { "image/jpeg" };
 }
 
-<h1>Index</h1>
-<div asp-validation-summary="All" class="text-danger"></div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FileName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ContentType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Size)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.uploadUrl)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DownloadCount)
-            </th>
+<div class="st-blog-wrap st-section ">
 
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedAt)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FileName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ContentType)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Size)
-                </td>
-                <td>
-                    @if (item.ContentType.Contains("image"))
+    <div class="container">
+        <div class="st-section-heading st-style2 text-center">
+            <h1>@ViewData["Title"]</h1>
+            <a asp-action="Create" class="btn btn-info">Create New</a>
+
+        </div>
+    </div>
+
+
+    <div class="container text-center">
+        <div class="row">
+
+
+            <table class="table" style="color: white;">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FileName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ContentType)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Size)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.uploadUrl)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.DownloadCount)
+                        </th>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.CreatedAt)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
                     {
-                        <img src="@item.uploadUrl" width="70px" height="70px" class="img-thumbnail"></img>
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FileName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ContentType)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Size)
+                            </td>
+                            <td>
+                                @if (item.ContentType.Contains("image"))
+                                {
+                                    <img src="@item.uploadUrl" width="70px" height="70px" class="img-thumbnail"></img>
+                                }
+                                else
+                                {
+                                    <a href="@item.uploadUrl" target="_blank">Preview here</a>
+                                }
+
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DownloadCount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CreatedAt)
+                            </td>
+                            <td>
+                                @* @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) | *@
+                                @* @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) | *@
+                                @Html.ActionLink("Delete","Delete",new {publicId = item.PublicId})
+
+                            </td>
+                        </tr>
                     }
-                    else
-                    {
-                        <a href="@item.uploadUrl" target="_blank">Preview here</a>
-                    }
+                </tbody>
+            </table>
 
-                </td>
+        </div>
+    </div>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.DownloadCount)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedAt)
-                </td>
-                <td>
-                    @* @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) | *@
-                    @* @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) | *@
-                    @Html.ActionLink("Delete","Delete",new {publicId = item.PublicId}) |
-
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+</div>

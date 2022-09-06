@@ -4,70 +4,93 @@
     ViewData["Title"] = "Search";
 }
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-10">
-            <h1>Search Result for : @ViewBag.term</h1>
-        </div>
-        <div class=" col-md-2 mt-2">
-            <a class="btn btn-primary" asp-action="Index" asp-controller="Home">Go Back</a>
+<!-- Start Page Title -->
+<section class="st-page-header st-gray-bg ">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="st-page-header-text">
+                    <h1>Search For : @ViewBag.term</h1>
+                    <ul class="st-breadcam">
+                        <li><a asp-action="Index" asp-controller="Home">Home</a></li>
+                        <li>Search</li>
+                    </ul>
+                </div>
+            </div><!-- .col -->
         </div>
     </div>
-    <hr />
+</section>
+<!-- End Page Title -->
 
 
-    <div class="row">
-        @foreach (var file in Model)
-        {
-            <div class="card m-3 col-md-12">
-                <div class="row g-0">
-                    <div class="col-md-4">
-                        @if (file.ContentType.Contains("image"))
-                        {
-                            <img src="@file.uploadUrl" class="card-img-upload" height="100%" width="100%">
-                        }
-                        else
-                        {
-                            <img src="~/images/no image.jpg" class="card-img-upload" height="100%" width="100%">
-                        }
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <div class="col-6">
-                                <h5 class="card-title">@file.FileName</h5>
+<!-- Start Search Section -->
+<div class="st-blog-wrap st-section" id="blog">
+    <div class="container">
+        <div class="row">
+            @if (Model.Any())
+            {
+                @foreach (var item in Model)
+                {
+                    <div class="col-lg-4">
+                        <div class="st-blog st-style1 wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.2s">
+                            <div class="st-zoom">
 
-                                <p class="card-text"><small class="text-muted">@file.CreatedAt</small></p>
-                            </div>
-                            <div class="col-3">
-                                <strong>Size : </strong>
-                                @{
-                                    var size = file.Size / 1024; //KB
-                                    if (size < 1024) //2048
-                                    {
-                                        <span>@Math.Floor(size) Kb</span>
-                                    }
-                                    else
-                                    {
-                                        <span>@(Math.Floor(size) / 1024) Mb</span>
-                                    }
+                                @if (item.ContentType.Contains("image"))
+                                {
+                                    <a class="st-blog-thumb st-bg st-zoom-in" data-src="@item.uploadUrl"></a>
                                 }
-                            </div>
-                            <div class="col-3">
-                                <strong>Download Count :@file.DownloadCount </strong>
-                            </div>
-                            <div class="text-end">
-                                <a class="btn btn-success">Download</a>
+                                else
+                                {
+                                    <a class="st-blog-thumb st-bg st-zoom-in" data-src="../assets/img/light-img/blog1.png"></a>
+                                }
 
+                            </div>
+                            <div class="st-blog-info">
+                                <div class="st-blog-label"> <a href="#">@item.FileName</a></div>
+                                <h2 class="st-blog-title">Download Count : @item.DownloadCount</h2>
+                                <div class="st-blog-text">
+                                    Size :
+                                    @{
+                                        var size = item.Size / 1024; //KB
+                                        if (size < 1024) //2048
+                                        {
+                                            <span>@Math.Floor(size) Kb</span>
+                                        }
+                                        else
+                                        {
+                                            <span>@(Math.Floor(size) / 1024) Mb</span>
+                                        }
+                                    }
+                                </div>
+                                <div class="st-blog-meta">
+                                    <div class="st-blog-meta-left"><span class="st-posted-by">@item.ContentType</span></div>
+                                    <div class="st-blog-meta-right"><a asp-action="Download" asp-route-fileName="@item.FileName"
+                                    class="st-blog-btn">Download <i class="fas fa-chevron-right"></i></a></div>
+                                </div>
                             </div>
                         </div>
                     </div>
+                }
+            }
+            else
+            {
+                <div class="st-page-header-text text-center">
+                    <h1>No Result Found !</h1>
+                    <a asp-action="Index" asp-controller="Home" class="btn-lg btn-info">Back</a>
                 </div>
-            </div>
-        }
+            }
+
+
+
+        </div>
+        @* <div class="st-pagination">
+            <ul>
+            <li class="is-active"><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">Next Page</a></li>
+            </ul>
+            </div> *@
     </div>
-
-
-
-
-
 </div>
+<!-- End Browse Section -->

@@ -3,59 +3,117 @@
 }
 
 
-<div class="container text-center">
-    <div class="row justify-content-md-center">
-        <h2>Search For Upload </h2> <br>
+<!-- Start Hero Slider -->
+<div class="st-hero-slider1 owl-carousel st-owl-controler2" id="home">
+    <div class="st-hero-slide st-style1 st-flex">
+        <div class="container">
+            <div class="st-hero-text st-style1">
+                <h1 class="st-hero-title">File sharing Website</h1>
+                <div class="st-hero-subtitle">
+                    Search,download And upload Images,Videos,pdf files<br />
 
+                </div>
+                <div class="st-btn-group st-style1">
+                    <a href="#" class="st-btn st-style1 st-color1">Learn More</a>
+                    <a href="https://www.youtube.com/embed/jRcfE2xxSAw?autoplay=1"
+                        class="st-btn st-style2 st-video-open"><i class="flaticon-multimedia"></i> Watch Video</a>
+                </div>
+            </div>
+        </div>
+        <div class="st-hero-img"><img src="~/images/slider.png" alt="demo"></div>
+    </div>
 
+</div>
+<!-- End Hero Slider -->
+
+<!-- Search Upload Section -->
+<div class="st-project-wrap st-section-top" id="portfolio">
+    <div class="container">
+        <div class="st-section-heading st-style2 text-center">
+            <h2>Search For Upload</h2>
+            <div class="st-seperator">
+                <div class="st-seperator-left-bar wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.2s"></div>
+                <img src="~/assets/img/dark-img/seperator-icon.png" alt="demo" class="st-seperator-icon">
+                <div class="st-seperator-right-bar wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.2s"></div>
+            </div>
+            <p>This is a great place to tell people more about your services and peak <br>their interest. Last year our
+                latest work album</p>
+        </div>
+
+    </div>
+
+    <div class="container">
 
         @if (@TempData["search_empty"] != null)
         {
-            <span class="text-danger">@TempData["search_empty"]</span>
+            <div class="text-center">
+                <h4 class="text-danger">@TempData["search_empty"]</h4>
+            </div>
         }
 
 
-        <div class="col-md-8  ">
+        <div class="col-md-12  ">
             <form asp-action="Search" asp-controller="Uploads">
                 <div class="input-group input-group-lg m-3">
                     <input type="text" class="form-control" placeholder="File Name" name="term">
-                    <button class="btn btn-outline-secondary" type="submit">Search</button>
+                    <button class="btn btn-info" type="submit">Search</button>
                 </div>
 
             </form>
         </div>
+    </div>
 
-        <div class="col-md-12 ">
+</div>
+<!-- Search Upload Section -->
+
+
+<!-- Start popular uploads Section -->
+<section class="st-blog-wrap st-section " id="blog">
+    <div class="container">
+        <div class="st-section-heading st-style2 text-center">
             <h2>Popular Uploads</h2>
-
-            <div class="row row-cols-1 row-cols-md-3 g-4 m-3">
-                @foreach (var item in ViewBag.popularDownloads)
-                {
-                    <div class="col">
-                        <div class="card">
+            <div class="st-seperator">
+                <div class="st-seperator-left-bar wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.2s"></div>
+                <img src="~/assets/img/dark-img/seperator-icon.png" alt="demo" class="st-seperator-icon">
+                <div class="st-seperator-right-bar wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.2s"></div>
+            </div>
+            <p>Most downloaded uploads are displayed here</p>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            @foreach (var item in ViewBag.popularDownloads)
+            {
+                <div class="col-lg-4">
+                    <div class="st-blog st-style1 wow fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.2s">
+                        <div class="st-zoom">
                             @if (item.ContentType.Contains("image"))
                             {
-                                <img src="@item.uploadUrl" class="card-img-top home-card-img" alt="@item.FileName">
+                                <a class="st-blog-thumb st-bg st-bg st-zoom-in" data-src="@item.uploadUrl"></a>
                             }
                             else
                             {
 
-                                <img src="~/images/no image.jpg" class="card-img-top home-card-img" alt="@item.FileName">
+                                <a class="st-blog-thumb st-bg st-bg st-zoom-in" data-src="assets/img/light-img/blog1.png"></a>
                             }
 
-                            <div class="card-body">
-                                <h5 class="card-title">@item.FileName</h5>
-                                <p class="card-text">
-                                    <strong>Download Count : </strong>
-                                    @item.DownloadCount
-                                </p>
+                        </div>
+                        <div class="st-blog-info">
+                            @* <div class="st-blog-label">By <a href="#">Limty</a></div> *@
+                            <h2 class="st-blog-title">@item.FileName</h2>
+                            @* <div class="st-blog-text">A business plan is a formal written document containing business
+                                goals. The methods on how these goals can be [....]</div> *@
+                            <div class="st-blog-meta">
+                                <div class="st-blog-meta-left"><span class="st-posted-by">Download Count :
+                                        @item.DownloadCount</span></div>
+
                             </div>
                         </div>
                     </div>
+                </div>
+            }
 
-                }
-
-            </div>
         </div>
     </div>
-</div>
+</section>
+<!-- End popular uploads  Section -->

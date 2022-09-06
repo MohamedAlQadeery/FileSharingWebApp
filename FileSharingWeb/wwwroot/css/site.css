@@ -29,3 +29,7 @@ min-height: 290px;
 max-width: 387px;
 max-height: 290px;
 }
+
+.uploads-header{
+  background-image: url('../images/header.jpg');
+}
