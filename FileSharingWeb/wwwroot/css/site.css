@@ -23,3 +23,9 @@ min-height: 145px;
 max-width: 369px;
 max-height: 145px;
 }
+.home-card-img{
+min-width: 387px;
+min-height: 290px;
+max-width: 387px;
+max-height: 290px;
+}

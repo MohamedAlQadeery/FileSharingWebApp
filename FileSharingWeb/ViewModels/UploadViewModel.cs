@@ -15,6 +15,7 @@ namespace FileSharingWeb.ViewModels
 
         public string PublicId { get; set; }
         public DateTime CreatedAt { get; set; }
+        public long DownloadCount { get; set; }
     }
 
 

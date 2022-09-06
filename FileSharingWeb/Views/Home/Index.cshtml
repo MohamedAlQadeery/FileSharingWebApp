@@ -24,5 +24,38 @@
 
             </form>
         </div>
+
+        <div class="col-md-12 ">
+            <h2>Popular Uploads</h2>
+
+            <div class="row row-cols-1 row-cols-md-3 g-4 m-3">
+                @foreach (var item in ViewBag.popularDownloads)
+                {
+                    <div class="col">
+                        <div class="card">
+                            @if (item.ContentType.Contains("image"))
+                            {
+                                <img src="@item.uploadUrl" class="card-img-top home-card-img" alt="@item.FileName">
+                            }
+                            else
+                            {
+
+                                <img src="~/images/no image.jpg" class="card-img-top home-card-img" alt="@item.FileName">
+                            }
+
+                            <div class="card-body">
+                                <h5 class="card-title">@item.FileName</h5>
+                                <p class="card-text">
+                                    <strong>Download Count : </strong>
+                                    @item.DownloadCount
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+
+            </div>
+        </div>
     </div>
 </div>

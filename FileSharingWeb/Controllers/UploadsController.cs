@@ -38,7 +38,9 @@ namespace FileSharingWeb.Controllers
                 uploadUrl = u.uploadUrl,
                 PublicId = u.PublicId,
                 Size = u.Size,
-                CreatedAt = u.CreatedAt
+                CreatedAt = u.CreatedAt,
+                DownloadCount = u.DownloadCount
+
 
             }).OrderByDescending(u => u.CreatedAt).ToList();
             return View(uploads);
@@ -150,9 +152,10 @@ namespace FileSharingWeb.Controllers
                 uploadUrl = u.uploadUrl,
                 PublicId = u.PublicId,
                 Size = u.Size,
-                CreatedAt = u.CreatedAt
+                CreatedAt = u.CreatedAt,
+                DownloadCount = u.DownloadCount
 
-            }).OrderByDescending(u => u.CreatedAt).ToListAsync();
+            }).OrderByDescending(u => u.DownloadCount).ToListAsync();
             ViewBag.term = term;
             return View(uploads);
         }
@@ -169,9 +172,11 @@ namespace FileSharingWeb.Controllers
                 uploadUrl = u.uploadUrl,
                 PublicId = u.PublicId,
                 Size = u.Size,
-                CreatedAt = u.CreatedAt
+                CreatedAt = u.CreatedAt,
+                DownloadCount = u.DownloadCount
 
-            }).OrderByDescending(u => u.CreatedAt).ToListAsync();
+
+            }).OrderByDescending(u => u.DownloadCount).ToListAsync();
 
             return View(uploads);
         }
@@ -185,7 +190,9 @@ namespace FileSharingWeb.Controllers
             {
                 return NotFound();
             }
-
+            file.DownloadCount++;
+            _ctx.Uploads.Update(file);
+            await _ctx.SaveChangesAsync();
             return Redirect(file.uploadUrl);
 
         }

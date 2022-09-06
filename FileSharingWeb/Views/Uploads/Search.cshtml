@@ -26,13 +26,35 @@
                         {
                             <img src="@file.uploadUrl" class="card-img-upload" height="100%" width="100%">
                         }
+                        else
+                        {
+                            <img src="~/images/no image.jpg" class="card-img-upload" height="100%" width="100%">
+                        }
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
-                            <h5 class="card-title">@file.FileName</h5>
-                            @* <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                                additional content. This content is a little bit longer.</p> *@
-                            <p class="card-text"><small class="text-muted">@file.CreatedAt</small></p>
+                            <div class="col-6">
+                                <h5 class="card-title">@file.FileName</h5>
+
+                                <p class="card-text"><small class="text-muted">@file.CreatedAt</small></p>
+                            </div>
+                            <div class="col-3">
+                                <strong>Size : </strong>
+                                @{
+                                    var size = file.Size / 1024; //KB
+                                    if (size < 1024) //2048
+                                    {
+                                        <span>@Math.Floor(size) Kb</span>
+                                    }
+                                    else
+                                    {
+                                        <span>@(Math.Floor(size) / 1024) Mb</span>
+                                    }
+                                }
+                            </div>
+                            <div class="col-3">
+                                <strong>Download Count :@file.DownloadCount </strong>
+                            </div>
                             <div class="text-end">
                                 <a class="btn btn-success">Download</a>
 

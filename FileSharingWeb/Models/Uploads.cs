@@ -24,5 +24,8 @@ namespace FileSharingWeb.Models
 
         public string PublicId { get; set; }
 
+
+        public long DownloadCount { get; set; } = 0;
+
     }
 }
