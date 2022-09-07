@@ -41,3 +41,7 @@ max-height: 290px;
 span.success-message {
   font-size: 19px;
 }
+
+input.cf-input{
+  max-width: inherit;
+}

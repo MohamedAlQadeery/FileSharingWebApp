@@ -2477,7 +2477,7 @@ a:hover {
     border-radius: 3px;
     padding: 10px 20px;
     font-size: 14px;
-    max-width: calc(100% - 85px);
+    /* max-width: calc(100% - 85px); */
     -webkit-transition: all 0.3s ease;
     -o-transition: all 0.3s ease;
     transition: all 0.3s ease;

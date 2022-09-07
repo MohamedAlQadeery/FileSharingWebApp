@@ -13,6 +13,6 @@ namespace FileSharingWeb.Data
         }
 
         public DbSet<Uploads> Uploads { get; set; }
-
+        public DbSet<Contact> Contacts { get; set; }
     }
 }

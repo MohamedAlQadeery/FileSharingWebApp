@@ -43,5 +43,24 @@ namespace FileSharingWeb.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
+
+        [HttpGet]
+        public IActionResult Contact()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ActionName("Contact")]
+        public IActionResult ContactPost(ContactVM contactVM)
+        {
+            if (!ModelState.IsValid) return View(contactVM);
+
+            return View();
+        }
+
+
     }
 }
