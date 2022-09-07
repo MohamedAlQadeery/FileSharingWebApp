@@ -1,0 +1,45 @@
+﻿@model FileSharingWeb.ViewModels.UserVM
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<!-- Start Skill Section -->
+<section class="st-skill-wrap st-section-top">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="st-vertical-middle">
+                    <div class="st-vertical-middle-in wow fadeInLeft" data-wow-duration="0.8s" data-wow-delay="0.2s">
+                        <div class="st-skill-img text-center">
+                            <img src="~/images/profile.png" alt="demo">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="st-section-heading st-style2 st-type2">
+                    <h2>User Profile</h2>
+
+                </div>
+                <div class="st-progressbar-wrap">
+                    <div class="st-single-progressbar">
+                        <div class="st-progressbar-meta">
+                            <h3 class="st-progressbar-title">Username : </h3>
+                            <h3 class="st-progressbar-title text-start">@Model.Username</h3>
+
+                        </div>
+                        <div class="st-progressbar-meta">
+                            <h3 class="st-progressbar-title">Email : </h3>
+                            <h3 class="st-progressbar-title">@Model.Email</h3>
+
+                        </div>
+
+                    </div><!-- .st-single-progressbar -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Skill Section -->

@@ -82,7 +82,8 @@
                         else
                         {
 
-                            <li><a class="nav-link px-2 text-white">@User.Identity.Name</a>
+                            <li><a class="nav-link px-2 @Html.ActiveClass("Account","Profile")" asp-action="Profile"
+                                asp-controller="Account" asp-route-name=@User.Identity.Name>@User.Identity.Name</a>
                             </li>
                             <li><a asp-controller="Account" asp-action="Logout" class="nav-link px-2 text-white">Logout</a>
                             </li>
@@ -182,7 +183,7 @@
         </div>
 
         <!-- Start Footer Seciton -->
-        <footer class="st-site-footer st-style1 st-sticky-footer">
+        <footer class="st-site-footer st-style1">
             <div class="st-main-footer text-center">
                 <div class="container">
                     <div class="st-footer-logo">

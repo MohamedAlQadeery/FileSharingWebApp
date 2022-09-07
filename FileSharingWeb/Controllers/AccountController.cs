@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using FileSharingWeb.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -108,6 +109,22 @@ namespace FileSharingWeb.Controllers
         private IdentityUser IsEmailExist(string email)
         {
             return _userManager.Users.FirstOrDefault(u => u.Email == email);
+
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> Profile(string name)
+        {
+            var user = await _userManager.Users.Where(u => u.UserName == name)
+            .Select(u => new UserVM { Username = u.UserName, Email = u.Email })
+            .FirstOrDefaultAsync();
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
 
         }
     }
