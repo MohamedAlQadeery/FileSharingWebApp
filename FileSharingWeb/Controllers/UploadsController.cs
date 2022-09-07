@@ -84,8 +84,8 @@ namespace FileSharingWeb.Controllers
 
             _ctx.Uploads.Add(upload);
             await _ctx.SaveChangesAsync();
-
-            return View();
+            TempData["uploaded_success"] = "Your file has been uploaded successfully!";
+            return RedirectToAction("Create");
         }
 
 

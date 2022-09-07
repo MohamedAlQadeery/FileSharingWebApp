@@ -38,3 +38,6 @@ max-height: 290px;
   font-weight: 500;
     font-size: 16px;
 }
+span.success-message {
+  font-size: 19px;
+}
