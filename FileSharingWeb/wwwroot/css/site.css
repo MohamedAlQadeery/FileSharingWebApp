@@ -33,3 +33,8 @@ max-height: 290px;
 .uploads-header{
   background-image: url('../images/header.jpg');
 }
+
+.nav{
+  font-weight: 500;
+    font-size: 16px;
+}

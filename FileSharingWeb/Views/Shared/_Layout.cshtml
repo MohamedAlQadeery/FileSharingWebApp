@@ -38,86 +38,142 @@
             <div class="st-preloader-wave"></div>
             <div class="st-preloader-wave"></div>
         </div>
-        <header class="st-header st-style1 st-sticky-menu st-full-width">
-            <div class="st-main-header">
-                <div class="container">
-                    <div class="st-main-header-in">
-                        <div class="st-site-branding">
-                            <a class="st-logo-link" asp-area="" asp-controller="Home" asp-action="Index">
-                                <h4>File Sharing</h4>
-                            </a>
+        <header class="p-3  text-white st-header st-style1 st-sticky-menu st-full-width">
+            <div class="container">
+                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                    <div class="st-site-branding mr-4 mt-1">
+                        <a class="st-logo-link" asp-area="" asp-controller="Home" asp-action="Index">
+                            <h4>File Sharing</h4>
+                        </a>
 
-
-
-                        </div>
-
-                        <!-- For Site Title -->
-                        <!-- <span class="st-site-title">
-            <a href="index.html">Logo</a>
-          </span> -->
-                        <div class="st-nav-wrap st-fade-down">
-                            <div class="st-nav-toggle st-style1">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
-                            <nav class="st-nav st-desktop-nav">
-                                <ul class="st-nav-list onepage-nav">
-                                    <li>
-                                        <a class="smooth-scroll" asp-area="" asp-controller="Home"
-                                            asp-action="Index">Home</a>
-                                    </li>
-                                    <li>
-                                        <a class="smooth-scroll" asp-area="" asp-controller="Home"
-                                            asp-action="Privacy">Privacy</a>
-                                    </li>
-                                    <li>
-                                        <a class="smooth-scroll" asp-area="" asp-controller="Uploads"
-                                            asp-action="Browse">Browse</a>
-                                    </li>
-
-
-                                    @if (User.Identity.IsAuthenticated)
-                                    {
-                                        <li>
-                                            <a class="smooth-scroll" asp-area="" asp-controller="Uploads"
-                                            asp-action="Create">Uploads</a>
-                                        </li>
-
-                                        <li>
-                                            <a class="smooth-scroll">@User.Identity.Name</a>
-                                        </li>
-                                        <li>
-                                            <a class="smooth-scroll" asp-area="" asp-controller="Account"
-                                            asp-action="Logout">Logout</a>
-                                        </li>
-                                    }
-                                    else
-                                    {
-
-                                        <li>
-                                            <a class="smooth-scroll" asp-area="" asp-controller="Account"
-                                            asp-action="Login">Login</a>
-                                        </li>
-                                        <li>
-                                            <a class="smooth-scroll" asp-area="" asp-controller="Account"
-                                            asp-action="Register">Register</a>
-                                        </li>
-                                    }
-
-                                </ul>
-
-
-
-                            </nav><!-- .st-nav -->
-                        </div><!-- .st-nav-wrap -->
                     </div>
+
+                    <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+
+                        <li><a asp-action="Index" asp-controller="Home"
+                                class="nav-link px-2 @Html.ActiveClass("Home","Index")">Home</a>
+                        </li>
+                        <li><a asp-action="Privacy" asp-controller="Home"
+                                class="nav-link px-2  @Html.ActiveClass("Home","Privacy")">Privacy</a>
+                        </li>
+                        <li><a asp-action="Browse" asp-controller="Uploads"
+                                class="nav-link px-2  @Html.ActiveClass("Uploads","Browse")">Browse</a>
+                        </li>
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li><a asp-action="Create" asp-controller="Uploads"
+                                class="nav-link px-2 @Html.ActiveClass("Uploads","Create")">Uploads</a>
+                            </li>
+                        }
+                    </ul>
+
+
+                    <ul class="nav col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                            <li><a asp-action="Login" asp-controller="Account"
+                                class="nav-link px-2 @Html.ActiveClass("Account","Login")">Login</a>
+                            </li>
+                            <li><a asp-action="Register" asp-controller="Account"
+                                class="nav-link px-2  @Html.ActiveClass("Account","Register")">Register</a>
+                            </li>
+                        }
+                        else
+                        {
+
+                            <li><a class="nav-link px-2 text-white">@User.Identity.Name</a>
+                            </li>
+                            <li><a asp-controller="Account" asp-action="Logout" class="nav-link px-2 text-white">Logout</a>
+                            </li>
+                        }
+
+                    </ul>
+
+
+
                 </div>
             </div>
         </header>
+        @* <header class="st-header st-style1 st-sticky-menu st-full-width">
+            <div class="st-main-header">
+            <div class="container">
+            <div class="st-main-header-in">
+            <div class="st-site-branding">
+            <a class="st-logo-link" asp-area="" asp-controller="Home" asp-action="Index">
+            <h4>File Sharing</h4>
+            </a>
+
+            </div>
+            <!-- For Site Title -->
+            <!-- <span class="st-site-title">
+            <a href="index.html">Logo</a></span> -->
+            <div class="st-nav-wrap st-fade-down ">
+            <div class="st-nav-toggle st-style1">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            </div>
+            <nav class="st-nav st-desktop-nav">
+            <ul class="st-nav-list onepage-nav">
+            <li>
+            <a class="smooth-scroll" asp-area="" asp-controller="Home"
+            asp-action="Index">Home</a>
+            </li>
+            <li>
+            <a class="smooth-scroll" asp-area="" asp-controller="Home"
+            asp-action="Privacy">Privacy</a>
+            </li>
+            <li>
+            <a class="smooth-scroll" asp-area="" asp-controller="Uploads"
+            asp-action="Browse">Browse</a>
+            </li>
+
+
+            @if (User.Identity.IsAuthenticated)
+            {
+            <li>
+            <a class="smooth-scroll" asp-area="" asp-controller="Uploads"
+            asp-action="Create">Uploads</a>
+            </li>
+
+            <li>
+            <a class="smooth-scroll">@User.Identity.Name</a>
+            </li>
+            <li>
+            <a class="smooth-scroll" asp-area="" asp-controller="Account"
+            asp-action="Logout">Logout</a>
+            </li>
+            }
+            else
+            {
+
+            <li>
+            <a class="smooth-scroll" asp-area="" asp-controller="Account"
+            asp-action="Login">Login</a>
+            </li>
+            <li>
+            <a class="smooth-scroll" asp-area="" asp-controller="Account"
+            asp-action="Register">Register</a>
+            </li>
+            }
+
+            </ul>
+
+
+
+
+
+            </nav><!-- .st-nav -->
+            </div>
+            <!-- .st-nav-wrap -->
+            </div>
+            </div>
+            </div>
+            </header> *@
         <div class="st-content">
 
             @RenderBody()
