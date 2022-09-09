@@ -1,8 +1,11 @@
 ﻿using FileSharingWeb.Data;
+using FileSharingWeb.Helpers;
+using FileSharingWeb.Interfaces.Services;
 using FileSharingWeb.Models;
 using FileSharingWeb.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Text;
 
 namespace FileSharingWeb.Controllers
 {
@@ -10,9 +13,11 @@ namespace FileSharingWeb.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly AppDbContext _ctx;
+        private readonly IEmailService _emailService;
 
-        public HomeController(ILogger<HomeController> logger, AppDbContext ctx)
+        public HomeController(ILogger<HomeController> logger, AppDbContext ctx, IEmailService emailService)
         {
+            _emailService = emailService;
             _logger = logger;
             _ctx = ctx;
         }
@@ -54,11 +59,33 @@ namespace FileSharingWeb.Controllers
 
         [HttpPost]
         [ActionName("Contact")]
-        public IActionResult ContactPost(ContactVM contactVM)
+        public async Task<IActionResult> ContactPost(ContactVM contactVM)
         {
             if (!ModelState.IsValid) return View(contactVM);
 
-            return View();
+            var contact = new Contact()
+            {
+                FullName = contactVM.FullName,
+                Email = contactVM.Email,
+                Subject = contactVM.Subject,
+                Body = contactVM.Body
+            };
+
+            _ctx.Contacts.Add(contact);
+            await _ctx.SaveChangesAsync();
+
+            var sb = new StringBuilder();
+            sb.AppendLine("<h1>File Sharing - Unread Message</h1>");
+            sb.AppendLine($"Name :{contact.FullName}");
+            sb.AppendLine($"Email :{contact.Email}");
+            sb.AppendLine($"Subject :{contact.Subject}");
+            sb.AppendLine($"Message :{contact.Body}");
+
+            //send to our email to inform us
+            _emailService.SendEmail(new EmailMessage(new string[] { "moh9amad1@gmail.com" }, contact.Subject, sb.ToString()));
+            return RedirectToAction("Contact");
+
+
         }
 
 
