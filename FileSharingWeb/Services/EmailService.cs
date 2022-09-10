@@ -30,7 +30,7 @@ namespace FileSharingWeb.Services
         private MimeMessage CreateEmailMessage(EmailMessage message)
         {
             var emailMessage = new MimeMessage();
-            emailMessage.From.Add(new MailboxAddress("File Sharing - Unread Message", _config.Value.From));
+            emailMessage.From.Add(new MailboxAddress(_config.Value.FromName, _config.Value.FromEmail));
             emailMessage.To.AddRange(message.To);
             emailMessage.Subject = message.Subject;
             emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html) { Text = message.Body };
