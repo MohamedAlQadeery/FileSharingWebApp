@@ -59,5 +59,32 @@ namespace FileSharingWeb.Resources.Views.Account {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Back.
+        /// </summary>
+        public static string back_btn {
+            get {
+                return ResourceManager.GetString("back_btn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Register.
+        /// </summary>
+        public static string register {
+            get {
+                return ResourceManager.GetString("register", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Register an account.
+        /// </summary>
+        public static string register_account {
+            get {
+                return ResourceManager.GetString("register_account", resourceCulture);
+            }
+        }
     }
 }

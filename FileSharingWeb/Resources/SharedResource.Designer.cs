@@ -61,6 +61,24 @@ namespace FileSharingWeb.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Confirm Password.
+        /// </summary>
+        public static string confirm_password {
+            get {
+                return ResourceManager.GetString("confirm_password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password does not match.
+        /// </summary>
+        public static string confirm_password_error {
+            get {
+                return ResourceManager.GetString("confirm_password_error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email Address.
         /// </summary>
         public static string email {
@@ -102,6 +120,15 @@ namespace FileSharingWeb.Resources {
         public static string required_error {
             get {
                 return ResourceManager.GetString("required_error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Username.
+        /// </summary>
+        public static string username {
+            get {
+                return ResourceManager.GetString("username", resourceCulture);
             }
         }
     }

@@ -132,4 +132,13 @@
   <data name="required_error" xml:space="preserve">
     <value>{0} is required</value>
   </data>
+  <data name="username" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="confirm_password" xml:space="preserve">
+    <value>Confirm Password</value>
+  </data>
+  <data name="confirm_password_error" xml:space="preserve">
+    <value>Password does not match</value>
+  </data>
 </root>
