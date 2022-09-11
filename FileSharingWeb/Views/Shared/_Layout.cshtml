@@ -1,5 +1,14 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿@using Microsoft.AspNetCore.Localization
+
+@{
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    //return url for the serever to redirect
+    var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}";
+    bool isArabic = requestCulture.RequestCulture.Culture.Name == "ar-SA" ? true : false;
+}
+
+<!DOCTYPE html>
+<html lang="@(isArabic? "ar" : "en")" dir="@(isArabic? "rtl" : "ltr")">
 
 <head>
     <meta charset="utf-8" />
@@ -9,6 +18,16 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/FileSharingWeb.styles.css" asp-append-version="true" />
 
+    @if (isArabic)
+    {
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Tajawal&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css"
+        integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N" crossorigin="anonymous">
+
+
+    }
     <!-- Meta Tags -->
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
@@ -28,200 +47,219 @@
     <link rel="stylesheet" href="~/assets/css/style.css" />
 </head>
 
-<body>
+<body class="st-black-version @(isArabic? "rtl" : "")" style="font-family: 'Tajawal', sans-serif;">
 
-    <body class="st-black-version">
-        <div id="st-preloader">
-            <div class="st-preloader-wave"></div>
-            <div class="st-preloader-wave"></div>
-            <div class="st-preloader-wave"></div>
-            <div class="st-preloader-wave"></div>
-            <div class="st-preloader-wave"></div>
-        </div>
-        <header class="p-3  text-white st-header st-style1 st-sticky-menu st-full-width">
-            <div class="container">
-                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                    <div class="st-site-branding mr-4 mt-1">
-                        <a class="st-logo-link" asp-area="" asp-controller="Home" asp-action="Index">
-                            <h4>File Sharing</h4>
+
+    <div id="st-preloader">
+        <div class="st-preloader-wave"></div>
+        <div class="st-preloader-wave"></div>
+        <div class="st-preloader-wave"></div>
+        <div class="st-preloader-wave"></div>
+        <div class="st-preloader-wave"></div>
+    </div>
+    <header class="p-3  text-white st-header st-style1 st-sticky-menu st-full-width">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <div class="st-site-branding mr-4 mt-1">
+                    <a class="st-logo-link" asp-area="" asp-controller="Home" asp-action="Index">
+                        <h4>@lang["website_title"]</h4>
+                    </a>
+
+                </div>
+
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 @(isArabic?"rtl":"")">
+
+                    <li><a asp-action="Index" asp-controller="Home"
+                            class="nav-link px-2 @Html.ActiveClass("Home","Index")">@lang["Home"]</a>
+                    </li>
+                    <li><a asp-action="Privacy" asp-controller="Home"
+                            class="nav-link px-2  @Html.ActiveClass("Home","Privacy")">@lang["Privacy"]</a>
+                    </li>
+                    <li><a asp-action="Contact" asp-controller="Home"
+                            class="nav-link px-2  @Html.ActiveClass("Home","Contact")">@lang["Contactus"]</a>
+                    </li>
+                    <li><a asp-action="Browse" asp-controller="Uploads"
+                            class="nav-link px-2  @Html.ActiveClass("Uploads","Browse")">@lang["Browse"]</a>
+                    </li>
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li><a asp-action="Create" asp-controller="Uploads"
+                            class="nav-link px-2 @Html.ActiveClass("Uploads","Create")">@lang["Uploads"]</a>
+                        </li>
+
+                    }
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            @lang["Language"]
                         </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" role="button" asp-action="SetLanguage"
+                                    asp-controller="Language" asp-route-culture="ar-SA"
+                                    asp-route-returnUrl="@returnUrl">العربية</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" role="button" asp-action="SetLanguage"
+                                    asp-controller="Language" asp-route-culture="en-US"
+                                    asp-route-returnUrl="@returnUrl">English</a></li>
 
-                    </div>
+                        </ul>
+                    </li>
+                </ul>
 
-                    <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
 
-                        <li><a asp-action="Index" asp-controller="Home"
-                                class="nav-link px-2 @Html.ActiveClass("Home","Index")">Home</a>
+                <ul class="nav col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <li><a asp-action="Login" asp-controller="Account"
+                            class="nav-link px-2 @Html.ActiveClass("Account","Login")">@lang["Login"]</a>
                         </li>
-                        <li><a asp-action="Privacy" asp-controller="Home"
-                                class="nav-link px-2  @Html.ActiveClass("Home","Privacy")">Privacy</a>
+                        <li><a asp-action="Register" asp-controller="Account"
+                            class="nav-link px-2  @Html.ActiveClass("Account","Register")">@lang["Register"]</a>
                         </li>
-                        <li><a asp-action="Contact" asp-controller="Home"
-                                class="nav-link px-2  @Html.ActiveClass("Home","Contact")">Contact us</a>
+                    }
+                    else
+                    {
+
+                        <li><a class="nav-link px-2 @Html.ActiveClass("Account","Profile")" asp-action="Profile"
+                            asp-controller="Account" asp-route-name=@User.Identity.Name>@User.Identity.Name</a>
                         </li>
-                        <li><a asp-action="Browse" asp-controller="Uploads"
-                                class="nav-link px-2  @Html.ActiveClass("Uploads","Browse")">Browse</a>
+                        <li><a asp-controller="Account" asp-action="Logout"
+                            class="nav-link px-2 text-white">@lang["Logout"]</a>
                         </li>
-
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <li><a asp-action="Create" asp-controller="Uploads"
-                                class="nav-link px-2 @Html.ActiveClass("Uploads","Create")">Uploads</a>
-                            </li>
-
-                        }
-                    </ul>
+                    }
 
 
-                    <ul class="nav col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-                        @if (!User.Identity.IsAuthenticated)
-                        {
-                            <li><a asp-action="Login" asp-controller="Account"
-                                class="nav-link px-2 @Html.ActiveClass("Account","Login")">Login</a>
-                            </li>
-                            <li><a asp-action="Register" asp-controller="Account"
-                                class="nav-link px-2  @Html.ActiveClass("Account","Register")">Register</a>
-                            </li>
-                        }
-                        else
-                        {
-
-                            <li><a class="nav-link px-2 @Html.ActiveClass("Account","Profile")" asp-action="Profile"
-                                asp-controller="Account" asp-route-name=@User.Identity.Name>@User.Identity.Name</a>
-                            </li>
-                            <li><a asp-controller="Account" asp-action="Logout" class="nav-link px-2 text-white">Logout</a>
-                            </li>
-                        }
-
-                    </ul>
+                </ul>
 
 
-
-                </div>
-            </div>
-        </header>
-        @* <header class="st-header st-style1 st-sticky-menu st-full-width">
-            <div class="st-main-header">
-            <div class="container">
-            <div class="st-main-header-in">
-            <div class="st-site-branding">
-            <a class="st-logo-link" asp-area="" asp-controller="Home" asp-action="Index">
-            <h4>File Sharing</h4>
-            </a>
 
             </div>
-            <!-- For Site Title -->
-            <!-- <span class="st-site-title">
-            <a href="index.html">Logo</a></span> -->
-            <div class="st-nav-wrap st-fade-down ">
-            <div class="st-nav-toggle st-style1">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            </div>
-            <nav class="st-nav st-desktop-nav">
-            <ul class="st-nav-list onepage-nav">
-            <li>
-            <a class="smooth-scroll" asp-area="" asp-controller="Home"
-            asp-action="Index">Home</a>
-            </li>
-            <li>
-            <a class="smooth-scroll" asp-area="" asp-controller="Home"
-            asp-action="Privacy">Privacy</a>
-            </li>
-            <li>
-            <a class="smooth-scroll" asp-area="" asp-controller="Uploads"
-            asp-action="Browse">Browse</a>
-            </li>
-
-
-            @if (User.Identity.IsAuthenticated)
-            {
-            <li>
-            <a class="smooth-scroll" asp-area="" asp-controller="Uploads"
-            asp-action="Create">Uploads</a>
-            </li>
-
-            <li>
-            <a class="smooth-scroll">@User.Identity.Name</a>
-            </li>
-            <li>
-            <a class="smooth-scroll" asp-area="" asp-controller="Account"
-            asp-action="Logout">Logout</a>
-            </li>
-            }
-            else
-            {
-
-            <li>
-            <a class="smooth-scroll" asp-area="" asp-controller="Account"
-            asp-action="Login">Login</a>
-            </li>
-            <li>
-            <a class="smooth-scroll" asp-area="" asp-controller="Account"
-            asp-action="Register">Register</a>
-            </li>
-            }
-
-            </ul>
-
-
-
-
-
-            </nav><!-- .st-nav -->
-            </div>
-            <!-- .st-nav-wrap -->
-            </div>
-            </div>
-            </div>
-            </header> *@
-        <div class="st-content">
-
-            @RenderBody()
-
+        </div>
+    </header>
+    @* <header class="st-header st-style1 st-sticky-menu st-full-width">
+        <div class="st-main-header">
+        <div class="container">
+        <div class="st-main-header-in">
+        <div class="st-site-branding">
+        <a class="st-logo-link" asp-area="" asp-controller="Home" asp-action="Index">
+        <h4>File Sharing</h4>
+        </a>
 
         </div>
+        <!-- For Site Title -->
+        <!-- <span class="st-site-title">
+        <a href="index.html">Logo</a></span> -->
+        <div class="st-nav-wrap st-fade-down ">
+        <div class="st-nav-toggle st-style1">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        </div>
+        <nav class="st-nav st-desktop-nav">
+        <ul class="st-nav-list onepage-nav">
+        <li>
+        <a class="smooth-scroll" asp-area="" asp-controller="Home"
+        asp-action="Index">Home</a>
+        </li>
+        <li>
+        <a class="smooth-scroll" asp-area="" asp-controller="Home"
+        asp-action="Privacy">Privacy</a>
+        </li>
+        <li>
+        <a class="smooth-scroll" asp-area="" asp-controller="Uploads"
+        asp-action="Browse">Browse</a>
+        </li>
 
-        <!-- Start Footer Seciton -->
-        <footer class="st-site-footer st-style1">
-            <div class="st-main-footer text-center">
-                <div class="container">
-                    <div class="st-footer-logo">
-                        <img src="~/assets/img/dark-img/logo.png" alt="demo">
-                    </div>
-                    <div class="st-footer-text">We understand that it is better to morph virally than to embrace
-                        intuitively.<br>
-                        We will matrix the power of schemas to redefine.</div>
-                    <div class="st-footer-social">
-                        <ul class="st-footer-social-btn st-flex st-mp0">
-                            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                            <li><a href="#"><i class="fab fa-pinterest-p"></i></a></li>
-                            <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                            <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                        </ul>
-                    </div>
+
+        @if (User.Identity.IsAuthenticated)
+        {
+        <li>
+        <a class="smooth-scroll" asp-area="" asp-controller="Uploads"
+        asp-action="Create">Uploads</a>
+        </li>
+
+        <li>
+        <a class="smooth-scroll">@User.Identity.Name</a>
+        </li>
+        <li>
+        <a class="smooth-scroll" asp-area="" asp-controller="Account"
+        asp-action="Logout">Logout</a>
+        </li>
+        }
+        else
+        {
+
+        <li>
+        <a class="smooth-scroll" asp-area="" asp-controller="Account"
+        asp-action="Login">Login</a>
+        </li>
+        <li>
+        <a class="smooth-scroll" asp-area="" asp-controller="Account"
+        asp-action="Register">Register</a>
+        </li>
+        }
+
+        </ul>
+
+
+
+
+
+        </nav><!-- .st-nav -->
+        </div>
+        <!-- .st-nav-wrap -->
+        </div>
+        </div>
+        </div>
+        </header> *@
+    <div class="st-content">
+
+        @RenderBody()
+
+
+    </div>
+
+    <!-- Start Footer Seciton -->
+    <footer class="st-site-footer st-style1">
+        <div class="st-main-footer text-center">
+            <div class="container">
+                <div class="st-footer-logo">
+                    <img src="~/assets/img/dark-img/logo.png" alt="demo">
+                </div>
+                <div class="st-footer-text">@lang["Footer_Details"]</div>
+                <div class="st-footer-social">
+                    <ul class="st-footer-social-btn st-flex st-mp0">
+                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                        <li><a href="#"><i class="fab fa-pinterest-p"></i></a></li>
+                        <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                    </ul>
                 </div>
             </div>
-            <div class="st-copyright text-center">
-                <div class="st-copyright-text">File Sharing App</a></div>
-            </div>
-        </footer>
-        <!-- End Footer Seciton -->
+        </div>
+        <div class="st-copyright text-center">
+            <div class="st-copyright-text">@lang["website_title"]</div>
+        </div>
+    </footer>
+    <!-- End Footer Seciton -->
 
-        <!-- Scripts -->
-        <script src="~/assets/js/vendor/modernizr-3.5.0.min.js"></script>
-        <script src="~/assets/js/vendor/jquery-1.12.4.min.js"></script>
-        <script src="~/assets/js/mailchimp.min.js"></script>
-        <script src="~/assets/js/owlCarousel.min.js"></script>
-        <script src="~/assets/js/tamjid-counter.min.js"></script>
-        <script src="~/assets/js/wow.min.js"></script>
-        <script src="~/assets/js/main.js"></script>
-    </body>
+    <!-- Scripts -->
+    <script src="~/assets/js/vendor/modernizr-3.5.0.min.js"></script>
+    <script src="~/assets/js/vendor/jquery-1.12.4.min.js"></script>
+    <script src="~/assets/js/mailchimp.min.js"></script>
+    <script src="~/assets/js/owlCarousel.min.js"></script>
+    <script src="~/assets/js/tamjid-counter.min.js"></script>
+    <script src="~/assets/js/wow.min.js"></script>
+    <script src="~/assets/js/main.js"></script>
+
 
 
 

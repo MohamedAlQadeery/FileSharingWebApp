@@ -9,7 +9,10 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+.AddViewLocalization(op => op.ResourcesPath = "Resources");
+
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
@@ -17,9 +20,12 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+
 builder.Services.AddIdentityService();
+
 builder.Services.AddScoped<IFileUploadService, FileUploadService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -32,6 +38,13 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.UseRequestLocalization(options =>
+{
+    options.AddSupportedCultures(new string[] { "ar-SA", "en-US" });
+    options.AddSupportedUICultures(new string[] { "ar-SA", "en-US" });
+    options.SetDefaultCulture("en-US");
+});
 
 app.UseAuthentication();
 app.UseRouting();

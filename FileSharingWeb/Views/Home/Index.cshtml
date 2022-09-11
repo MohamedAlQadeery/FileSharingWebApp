@@ -8,15 +8,17 @@
     <div class="st-hero-slide st-style1 st-flex">
         <div class="container">
             <div class="st-hero-text st-style1">
-                <h1 class="st-hero-title">File sharing Website</h1>
+                <h1 class="st-hero-title">@lang["hero_title"]</h1>
                 <div class="st-hero-subtitle">
-                    Search,download And upload Images,Videos,pdf files<br />
+                    @lang["hero_desc"]
+                    <br />
 
                 </div>
                 <div class="st-btn-group st-style1">
-                    <a href="#" class="st-btn st-style1 st-color1">Learn More</a>
+                    <a href="#" class="st-btn st-style1 st-color1">@lang["learn_more"]</a>
                     <a href="https://www.youtube.com/embed/jRcfE2xxSAw?autoplay=1"
-                        class="st-btn st-style2 st-video-open"><i class="flaticon-multimedia"></i> Watch Video</a>
+                        class="st-btn st-style2 st-video-open"><i
+                            class="flaticon-multimedia"></i>@lang["watch_video"]</a>
                 </div>
             </div>
         </div>
@@ -30,14 +32,13 @@
 <div class="st-project-wrap st-section-top" id="portfolio">
     <div class="container">
         <div class="st-section-heading st-style2 text-center">
-            <h2>Search For Upload</h2>
+            <h2>@lang["search_upload"]</h2>
             <div class="st-seperator">
                 <div class="st-seperator-left-bar wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.2s"></div>
                 <img src="~/assets/img/dark-img/seperator-icon.png" alt="demo" class="st-seperator-icon">
                 <div class="st-seperator-right-bar wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.2s"></div>
             </div>
-            <p>This is a great place to tell people more about your services and peak <br>their interest. Last year our
-                latest work album</p>
+            <p>@lang["search_upload_desc"]</p>
         </div>
 
     </div>
@@ -55,8 +56,8 @@
         <div class="col-md-12  ">
             <form asp-action="Search" asp-controller="Uploads">
                 <div class="input-group input-group-lg m-3">
-                    <input type="text" class="form-control" placeholder="File Name" name="term">
-                    <button class="btn btn-info" type="submit">Search</button>
+                    <input type="text" class="form-control" placeholder="@lang["file_name"]" name="term">
+                    <button class="btn btn-info" type="submit">@lang["search"]</button>
                 </div>
 
             </form>
@@ -71,13 +72,13 @@
 <section class="st-blog-wrap st-section " id="blog">
     <div class="container">
         <div class="st-section-heading st-style2 text-center">
-            <h2>Popular Uploads</h2>
+            <h2>@lang["header_title"]</h2>
             <div class="st-seperator">
                 <div class="st-seperator-left-bar wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.2s"></div>
                 <img src="~/assets/img/dark-img/seperator-icon.png" alt="demo" class="st-seperator-icon">
                 <div class="st-seperator-right-bar wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.2s"></div>
             </div>
-            <p>Most downloaded uploads are displayed here</p>
+            <p>@lang["header_desc"]</p>
         </div>
     </div>
     <div class="container">
@@ -104,7 +105,7 @@
                             @* <div class="st-blog-text">A business plan is a formal written document containing business
                                 goals. The methods on how these goals can be [....]</div> *@
                             <div class="st-blog-meta">
-                                <div class="st-blog-meta-left"><span class="st-posted-by">Download Count :
+                                <div class="st-blog-meta-left"><span class="st-posted-by">@lang["download_count"] :
                                         @item.DownloadCount</span></div>
 
                             </div>

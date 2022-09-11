@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using FileSharingWeb.Resources;
 using FileSharingWeb.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
 namespace FileSharingWeb.Controllers
@@ -17,9 +19,12 @@ namespace FileSharingWeb.Controllers
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
-        public AccountController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
+        private readonly IStringLocalizer<AccountController> _localizer;
+
+        public AccountController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IStringLocalizer<AccountController> localizer)
         {
             _userManager = userManager;
+            _localizer = localizer;
             _signInManager = signInManager;
 
         }
@@ -40,7 +45,7 @@ namespace FileSharingWeb.Controllers
             if (!ModelState.IsValid) return View(registerVM);
             if (IsEmailExist(registerVM.Email) != null)
             {
-                ModelState.AddModelError("", "Email is already taken");
+                ModelState.AddModelError("", _localizer.GetString("email_exist"));
                 return View(registerVM);
 
             }
@@ -86,14 +91,14 @@ namespace FileSharingWeb.Controllers
 
             if (user == null)
             {
-                ModelState.AddModelError("", "Email does not exist !");
+                ModelState.AddModelError("", _localizer.GetString("email_password_wrong"));
                 return View(loginVM);
             }
 
             var result = await _signInManager.PasswordSignInAsync(user.UserName, loginVM.Password, true, true);
             if (!result.Succeeded)
             {
-                ModelState.AddModelError("", "Email/Password is wrong !");
+                ModelState.AddModelError("", _localizer.GetString("email_password_wrong"));
 
                 return View(loginVM);
             }
