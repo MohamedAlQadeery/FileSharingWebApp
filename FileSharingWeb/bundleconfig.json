@@ -1,0 +1,16 @@
+{
+  "outputFileName": "wwwroot/css/assets.min.css",
+  "inputFiles":[
+    "wwwroot/assets/css/bootstrap.min.css",
+    "wwwroot/assets/css/owlCarousel.min.css",
+    "wwwroot/assets/css/fontawesome.min.css",
+    "wwwroot/assets/css/flaticon.css",
+    "wwwroot/assets/css/animate.css",
+    "wwwroot/assets/css/style.css"
+  ],
+  "minify":{
+    "enabled ":true
+  },
+  "sourceMap":false
+
+}

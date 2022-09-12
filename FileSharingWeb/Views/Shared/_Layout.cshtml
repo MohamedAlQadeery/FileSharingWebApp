@@ -140,85 +140,7 @@
             </div>
         </div>
     </header>
-    @* <header class="st-header st-style1 st-sticky-menu st-full-width">
-        <div class="st-main-header">
-        <div class="container">
-        <div class="st-main-header-in">
-        <div class="st-site-branding">
-        <a class="st-logo-link" asp-area="" asp-controller="Home" asp-action="Index">
-        <h4>File Sharing</h4>
-        </a>
 
-        </div>
-        <!-- For Site Title -->
-        <!-- <span class="st-site-title">
-        <a href="index.html">Logo</a></span> -->
-        <div class="st-nav-wrap st-fade-down ">
-        <div class="st-nav-toggle st-style1">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        </div>
-        <nav class="st-nav st-desktop-nav">
-        <ul class="st-nav-list onepage-nav">
-        <li>
-        <a class="smooth-scroll" asp-area="" asp-controller="Home"
-        asp-action="Index">Home</a>
-        </li>
-        <li>
-        <a class="smooth-scroll" asp-area="" asp-controller="Home"
-        asp-action="Privacy">Privacy</a>
-        </li>
-        <li>
-        <a class="smooth-scroll" asp-area="" asp-controller="Uploads"
-        asp-action="Browse">Browse</a>
-        </li>
-
-
-        @if (User.Identity.IsAuthenticated)
-        {
-        <li>
-        <a class="smooth-scroll" asp-area="" asp-controller="Uploads"
-        asp-action="Create">Uploads</a>
-        </li>
-
-        <li>
-        <a class="smooth-scroll">@User.Identity.Name</a>
-        </li>
-        <li>
-        <a class="smooth-scroll" asp-area="" asp-controller="Account"
-        asp-action="Logout">Logout</a>
-        </li>
-        }
-        else
-        {
-
-        <li>
-        <a class="smooth-scroll" asp-area="" asp-controller="Account"
-        asp-action="Login">Login</a>
-        </li>
-        <li>
-        <a class="smooth-scroll" asp-area="" asp-controller="Account"
-        asp-action="Register">Register</a>
-        </li>
-        }
-
-        </ul>
-
-
-
-
-
-        </nav><!-- .st-nav -->
-        </div>
-        <!-- .st-nav-wrap -->
-        </div>
-        </div>
-        </div>
-        </header> *@
     <div class="st-content">
 
         @RenderBody()
@@ -270,6 +192,7 @@
 
 
     @await RenderSectionAsync("Scripts", required: false)
+
 </body>
 
 </html>

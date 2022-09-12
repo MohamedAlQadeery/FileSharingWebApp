@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using CloudinaryDotNet.Actions;
 using FileSharingWeb.Data;
 using FileSharingWeb.Extensions;
+using FileSharingWeb.Helpers;
 using FileSharingWeb.Interfaces.Services;
 using FileSharingWeb.Models;
 using FileSharingWeb.ViewModels;
@@ -135,17 +136,17 @@ namespace FileSharingWeb.Controllers
         }
 
 
-        [HttpPost]
+        [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> Search(string term)
+        public async Task<IActionResult> Search([FromQuery] UploadSearchParams searchParams)
         {
-            if (term == null)
+            if (searchParams.Term == null)
             {
                 TempData["search_empty"] = "File name cant be empty";
                 return RedirectToAction("Index", "Home");
             }
 
-            var uploads = await _ctx.Uploads.Where(u => u.FileName.Contains(term)).Select(u => new UploadViewModel
+            var uploads_query = _ctx.Uploads.Where(u => u.FileName.Contains(searchParams.Term)).Select(u => new UploadViewModel
             {
                 FileName = u.FileName,
                 ContentType = u.ContentType,
@@ -155,17 +156,20 @@ namespace FileSharingWeb.Controllers
                 CreatedAt = u.CreatedAt,
                 DownloadCount = u.DownloadCount
 
-            }).OrderByDescending(u => u.DownloadCount).ToListAsync();
-            ViewBag.term = term;
+            }).OrderByDescending(u => u.DownloadCount).AsQueryable();
+
+            var uploads = await PagedList<UploadViewModel>.CreateAsync(uploads_query, searchParams.PageIndex, PageSize);
+            ViewBag.term = searchParams.Term;
             return View(uploads);
         }
 
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> Browse()
+        public async Task<IActionResult> Browse(int pageIndex = 1)
         {
-            var uploads = await _ctx.Uploads.Select(u => new UploadViewModel
+
+            var uploadsQuery = _ctx.Uploads.Select(u => new UploadViewModel
             {
                 FileName = u.FileName,
                 ContentType = u.ContentType,
@@ -176,7 +180,10 @@ namespace FileSharingWeb.Controllers
                 DownloadCount = u.DownloadCount
 
 
-            }).OrderByDescending(u => u.DownloadCount).ToListAsync();
+            }).OrderByDescending(u => u.DownloadCount).AsQueryable();
+
+
+            var uploads = await PagedList<UploadViewModel>.CreateAsync(uploadsQuery, pageIndex, PageSize);
 
             return View(uploads);
         }
@@ -196,5 +203,8 @@ namespace FileSharingWeb.Controllers
             return Redirect(file.uploadUrl);
 
         }
+
+
+        public int PageSize { get; set; } = 6;
     }
 }

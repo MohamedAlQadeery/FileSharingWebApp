@@ -22,7 +22,7 @@
                 </div>
             </div>
         </div>
-        <div class="st-hero-img"><img src="~/images/slider.png" alt="demo"></div>
+        <div class="st-hero-img "><img src="~/images/slider.png" alt="demo"></div>
     </div>
 
 </div>
@@ -54,9 +54,10 @@
 
 
         <div class="col-md-12  ">
-            <form asp-action="Search" asp-controller="Uploads">
+            <form asp-action="Search" asp-controller="Uploads" method="get">
                 <div class="input-group input-group-lg m-3">
                     <input type="text" class="form-control" placeholder="@lang["file_name"]" name="term">
+                    <input type="hidden" name="pageIndex" value="1">
                     <button class="btn btn-info" type="submit">@lang["search"]</button>
                 </div>
 
@@ -90,12 +91,12 @@
                         <div class="st-zoom">
                             @if (item.ContentType.Contains("image"))
                             {
-                                <a class="st-blog-thumb st-bg st-bg st-zoom-in" data-src="@item.uploadUrl"></a>
+                                <a class="st-blog-thumb st-bg st-bg st-zoom-in " data-src="@item.uploadUrl"></a>
                             }
                             else
                             {
 
-                                <a class="st-blog-thumb st-bg st-bg st-zoom-in" data-src="assets/img/light-img/blog1.png"></a>
+                                <a class="st-blog-thumb st-bg st-bg st-zoom-in " data-src="assets/img/light-img/blog1.png"></a>
                             }
 
                         </div>

@@ -1,7 +1,12 @@
-﻿@model IEnumerable<FileSharingWeb.ViewModels.UploadViewModel>
+﻿@model PagedList<FileSharingWeb.ViewModels.UploadViewModel>
 
 @{
     ViewData["Title"] = "Browse Uploads";
+    int nextPage = Model.PageIndex + 1;
+    int prevPage = Model.PageIndex - 1;
+    var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}";
+
+
 }
 
 <!-- Start Page Title -->
@@ -10,10 +15,10 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="st-page-header-text">
-                    <h1>Browse Uploads</h1>
+                    <h1>@lang["browse_uploads"]</h1>
                     <ul class="st-breadcam">
-                        <li><a asp-action="Index" asp-controller="Home">Home</a></li>
-                        <li>Browse</li>
+                        <li><a asp-action="Index" asp-controller="Home">@lang["home"]</a></li>
+                        <li>@lang["browse"]</li>
                     </ul>
                 </div>
             </div><!-- .col -->
@@ -35,19 +40,19 @@
 
                             @if (item.ContentType.Contains("image"))
                             {
-                                <a class="st-blog-thumb st-bg st-zoom-in" data-src="@item.uploadUrl"></a>
+                                <a class="st-blog-thumb st-bg st-zoom-in " data-src="@item.uploadUrl"></a>
                             }
                             else
                             {
-                                <a class="st-blog-thumb st-bg st-zoom-in" data-src="../assets/img/light-img/blog1.png"></a>
+                                <a class="st-blog-thumb st-bg st-zoom-in " data-src="../assets/img/light-img/blog1.png"></a>
                             }
 
                         </div>
                         <div class="st-blog-info">
                             <div class="st-blog-label"> <a href="#">@item.FileName</a></div>
-                            <h2 class="st-blog-title">Download Count : @item.DownloadCount</h2>
+                            <h2 class="st-blog-title">@lang["download_count"] : @item.DownloadCount</h2>
                             <div class="st-blog-text">
-                                Size :
+                                @lang["size"] :
                                 @{
                                     var size = item.Size / 1024; //KB
                                     if (size < 1024) //2048
@@ -63,7 +68,7 @@
                             <div class="st-blog-meta">
                                 <div class="st-blog-meta-left"><span class="st-posted-by">@item.ContentType</span></div>
                                 <div class="st-blog-meta-right"><a asp-action="Download" asp-route-fileName="@item.FileName"
-                                    class="st-blog-btn">Download <i class="fas fa-chevron-right"></i></a></div>
+                                    class="st-blog-btn">@lang["download"] <i class="fas fa-chevron-right"></i></a></div>
                             </div>
                         </div>
                     </div>
@@ -71,14 +76,28 @@
             }
 
         </div>
-        @* <div class="st-pagination">
+        <div class="st-pagination">
             <ul>
-            <li class="is-active"><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">Next Page</a></li>
+                @if (prevPage > 0)
+                {
+                    <li><a asp-action="Browse" asp-route-pageIndex="@prevPage">@lang["prev"]</a></li>
+
+                }
+
+                @for (var i = 1; i <= Model.TotalPages; i++)
+                {
+                    <li class="@(Model.PageIndex == i ? "is-active" : "")"><a asp-action="Browse"
+                        asp-route-pageIndex="@i">@i</a></li>
+                }
+                @if (nextPage <= Model.TotalPages)
+                {
+
+                    <li><a asp-action="Browse" asp-route-pageIndex="@nextPage">@lang["next"]</a></li>
+
+                }
+
             </ul>
-            </div> *@
+        </div>
     </div>
 </div>
 <!-- End Browse Section -->
