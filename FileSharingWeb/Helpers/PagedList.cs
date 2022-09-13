@@ -28,7 +28,9 @@ namespace FileSharingWeb.Helpers
         {
 
             var totalCount = await source.CountAsync();
+            //make sure page index is in range
             if (pageIndex < 1 || pageIndex > (int)Math.Ceiling(totalCount / (double)pageSize)) pageIndex = 1;
+            ///
             var items = await source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
 
             return new PagedList<T>(pageIndex, pageSize, totalCount, items);

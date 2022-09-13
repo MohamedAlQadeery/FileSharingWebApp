@@ -12,28 +12,20 @@ namespace FileSharingWeb.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly AppDbContext _ctx;
-        private readonly IEmailService _emailService;
 
-        public HomeController(ILogger<HomeController> logger, AppDbContext ctx, IEmailService emailService)
+        private readonly IUploadsService _uploadsService;
+        private readonly IContactService _contactService;
+
+        public HomeController(ILogger<HomeController> logger, IUploadsService uploadsService, IContactService contactService)
         {
-            _emailService = emailService;
+            _contactService = contactService;
+            _uploadsService = uploadsService;
             _logger = logger;
-            _ctx = ctx;
         }
 
         public IActionResult Index()
         {
-            var uploads = _ctx.Uploads.OrderByDescending(u => u.DownloadCount).Select(u => new UploadViewModel
-            {
-                FileName = u.FileName,
-                uploadUrl = u.uploadUrl,
-                PublicId = u.PublicId,
-                DownloadCount = u.DownloadCount,
-                ContentType = u.ContentType,
-
-
-            }).Take(3);
+            var uploads = _uploadsService.GetAll().Take(3);
             ViewBag.popularDownloads = uploads;
             return View();
         }
@@ -71,18 +63,9 @@ namespace FileSharingWeb.Controllers
                 Body = contactVM.Body
             };
 
-            _ctx.Contacts.Add(contact);
-            await _ctx.SaveChangesAsync();
+            if (!await _contactService.CreateAsync(contact)) return BadRequest();
 
-            var sb = new StringBuilder();
-            sb.AppendLine("<h1>File Sharing - Unread Message</h1>");
-            sb.AppendLine($"Name :{contact.FullName}");
-            sb.AppendLine($"Email :{contact.Email}");
-            sb.AppendLine($"Subject :{contact.Subject}");
-            sb.AppendLine($"Message :{contact.Body}");
 
-            //send to our email to inform us
-            _emailService.SendEmail(new EmailMessage(new string[] { "moh9amad1@gmail.com" }, contact.Subject, sb.ToString()));
             return RedirectToAction("Contact");
 
 

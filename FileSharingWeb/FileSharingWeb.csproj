@@ -60,6 +60,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Browse.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\Views\Uploads\Search.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Search.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -111,6 +116,13 @@
     <EmbeddedResource Update="Resources\Views\Uploads\Browse.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Browse.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Uploads\Search.ar.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Uploads\Search.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Search.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 

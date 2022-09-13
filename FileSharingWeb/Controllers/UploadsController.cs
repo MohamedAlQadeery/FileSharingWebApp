@@ -21,10 +21,11 @@ namespace FileSharingWeb.Controllers
     public class UploadsController : Controller
     {
         private readonly IFileUploadService _fileUploadService;
-        private readonly AppDbContext _ctx;
-        public UploadsController(IFileUploadService fileUploadService, AppDbContext ctx)
+        private readonly IUploadsService _uploadsService;
+        public UploadsController(IFileUploadService fileUploadService, IUploadsService uploadsService)
         {
-            _ctx = ctx;
+            _uploadsService = uploadsService;
+
             _fileUploadService = fileUploadService;
 
         }
@@ -32,18 +33,7 @@ namespace FileSharingWeb.Controllers
 
         public IActionResult Index()
         {
-            var uploads = _ctx.Uploads.Where(u => u.UserId == User.GetUserId()).Select(u => new UploadViewModel
-            {
-                FileName = u.FileName,
-                ContentType = u.ContentType,
-                uploadUrl = u.uploadUrl,
-                PublicId = u.PublicId,
-                Size = u.Size,
-                CreatedAt = u.CreatedAt,
-                DownloadCount = u.DownloadCount
-
-
-            }).OrderByDescending(u => u.CreatedAt).ToList();
+            var uploads = _uploadsService.GetAllUserUploads(User.GetUserId()).ToList();
             return View(uploads);
         }
 
@@ -83,8 +73,9 @@ namespace FileSharingWeb.Controllers
                 Size = fileInput.File.Length
             };
 
-            _ctx.Uploads.Add(upload);
-            await _ctx.SaveChangesAsync();
+            _uploadsService.Create(upload);
+            if (!await _uploadsService.SaveAllAsync()) return View(fileInput);
+
             TempData["uploaded_success"] = "Your file has been uploaded successfully!";
             return RedirectToAction("Create");
         }
@@ -93,28 +84,30 @@ namespace FileSharingWeb.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(string publicId)
         {
-            var upload = await _ctx.Uploads.Where(u => u.PublicId == publicId).Select(u => new UploadViewModel
+            var upload = await _uploadsService.GetByPublicIdAsync(publicId);
+
+            var uploadVm = new UploadViewModel
             {
-                FileName = u.FileName,
-                ContentType = u.ContentType,
-                uploadUrl = u.uploadUrl,
-                PublicId = u.PublicId,
-                Size = u.Size,
-                CreatedAt = u.CreatedAt,
-                UserId = u.UserId
+                FileName = upload.FileName,
+                ContentType = upload.ContentType,
+                uploadUrl = upload.uploadUrl,
+                PublicId = upload.PublicId,
+                Size = upload.Size,
+                CreatedAt = upload.CreatedAt,
+                UserId = upload.UserId
 
 
-            }).FirstOrDefaultAsync();
+            };
 
             if (upload == null || upload.UserId != User.GetUserId()) return NotFound();
-            return View(upload);
+            return View(uploadVm);
 
         }
         [HttpPost]
         [ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirm(DeleteUploadVM deleteUploadVM)
         {
-            var upload = _ctx.Uploads.Where(u => u.PublicId == deleteUploadVM.PublicId).FirstOrDefault();
+            var upload = await _uploadsService.GetByPublicIdAsync(deleteUploadVM.PublicId);
 
             if (upload == null || upload.UserId != User.GetUserId())
             {
@@ -129,8 +122,8 @@ namespace FileSharingWeb.Controllers
                 return RedirectToAction("Index");
 
             }
-            _ctx.Uploads.Remove(upload);
-            await _ctx.SaveChangesAsync();
+            _uploadsService.Remove(upload);
+            if (!await _uploadsService.SaveAllAsync()) return BadRequest();
             return RedirectToAction("Index");
 
         }
@@ -146,17 +139,7 @@ namespace FileSharingWeb.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            var uploads_query = _ctx.Uploads.Where(u => u.FileName.Contains(searchParams.Term)).Select(u => new UploadViewModel
-            {
-                FileName = u.FileName,
-                ContentType = u.ContentType,
-                uploadUrl = u.uploadUrl,
-                PublicId = u.PublicId,
-                Size = u.Size,
-                CreatedAt = u.CreatedAt,
-                DownloadCount = u.DownloadCount
-
-            }).OrderByDescending(u => u.DownloadCount).AsQueryable();
+            var uploads_query = _uploadsService.GetAllByName(searchParams.Term);
 
             var uploads = await PagedList<UploadViewModel>.CreateAsync(uploads_query, searchParams.PageIndex, PageSize);
             ViewBag.term = searchParams.Term;
@@ -169,18 +152,7 @@ namespace FileSharingWeb.Controllers
         public async Task<IActionResult> Browse(int pageIndex = 1)
         {
 
-            var uploadsQuery = _ctx.Uploads.Select(u => new UploadViewModel
-            {
-                FileName = u.FileName,
-                ContentType = u.ContentType,
-                uploadUrl = u.uploadUrl,
-                PublicId = u.PublicId,
-                Size = u.Size,
-                CreatedAt = u.CreatedAt,
-                DownloadCount = u.DownloadCount
-
-
-            }).OrderByDescending(u => u.DownloadCount).AsQueryable();
+            var uploadsQuery = _uploadsService.GetAll();
 
 
             var uploads = await PagedList<UploadViewModel>.CreateAsync(uploadsQuery, pageIndex, PageSize);
@@ -192,19 +164,19 @@ namespace FileSharingWeb.Controllers
         [HttpGet]
         public async Task<IActionResult> Download(string fileName)
         {
-            var file = await _ctx.Uploads.FirstOrDefaultAsync(u => u.FileName == fileName);
+            var file = await _uploadsService.GetByFileNameAsync(fileName);
             if (file == null)
             {
                 return NotFound();
             }
-            file.DownloadCount++;
-            _ctx.Uploads.Update(file);
-            await _ctx.SaveChangesAsync();
+            _uploadsService.IncrementDownload(file);
+            if (!await _uploadsService.SaveAllAsync()) return BadRequest();
+
             return Redirect(file.uploadUrl);
 
         }
 
-
+        //Default Page size for pages   
         public int PageSize { get; set; } = 6;
     }
 }

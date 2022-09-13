@@ -25,6 +25,8 @@ builder.Services.AddIdentityService();
 
 builder.Services.AddScoped<IFileUploadService, FileUploadService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IUploadsService, UploadsService>();
+builder.Services.AddScoped<IContactService, ContactService>();
 
 var app = builder.Build();
 
