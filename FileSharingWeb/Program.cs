@@ -21,7 +21,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 
-builder.Services.AddIdentityService();
+builder.Services.AddIdentityService(builder.Configuration);
 
 builder.Services.AddScoped<IFileUploadService, FileUploadService>();
 builder.Services.AddScoped<IEmailService, EmailService>();

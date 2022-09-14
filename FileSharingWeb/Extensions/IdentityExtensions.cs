@@ -9,7 +9,7 @@ namespace FileSharingWeb.Extensions
 {
     public static class IdentityExtensions
     {
-        public static IServiceCollection AddIdentityService(this IServiceCollection service)
+        public static IServiceCollection AddIdentityService(this IServiceCollection service, IConfiguration config)
         {
             service.AddIdentity<IdentityUser, IdentityRole>(options =>
             {
@@ -22,6 +22,14 @@ namespace FileSharingWeb.Extensions
 
             })
             .AddEntityFrameworkStores<AppDbContext>();
+
+            service.AddAuthentication()
+                    .AddFacebook(options =>
+                    {
+                        options.AppId = config["Auth:Facebook:AppId"];
+                        options.AppSecret = config["Auth:Facebook:AppSecret"];
+                    });
+
 
             return service;
         }

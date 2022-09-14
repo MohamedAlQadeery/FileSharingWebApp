@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using FileSharingWeb.Resources;
 using FileSharingWeb.ViewModels;
@@ -42,6 +43,7 @@ namespace FileSharingWeb.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterVM registerVM)
         {
+
             if (!ModelState.IsValid) return View(registerVM);
             if (IsEmailExist(registerVM.Email) != null)
             {
@@ -131,6 +133,61 @@ namespace FileSharingWeb.Controllers
 
             return View(user);
 
+        }
+
+
+
+        public IActionResult ExternalLogin(string provider)
+        {
+            var props = _signInManager.ConfigureExternalAuthenticationProperties(provider, "/Account/ExternalLoginCallBack");
+            return Challenge(props, provider);
+        }
+
+
+       
+        public async Task<IActionResult> ExternalLoginCallBack()
+        {
+            var info = await _signInManager.GetExternalLoginInfoAsync();
+            if (info == null)
+            {
+                TempData["failed_login"] = "Login error";
+                return RedirectToAction("Index", "Home");
+            }
+
+            //login using AspNetUserLogins table
+            var exLoginResult = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, true);
+
+            //if login failed it means its new account 
+            if (!exLoginResult.Succeeded)
+            {
+
+                var user = new IdentityUser
+                {
+                    Email = info.Principal.FindFirstValue(ClaimTypes.Email),
+                    UserName = info.Principal.FindFirstValue(ClaimTypes.Email)
+                };
+
+                var createUserResult = await _userManager.CreateAsync(user);
+                if (createUserResult.Succeeded)
+                {
+                    var userLoginsInfoResult = await _userManager.AddLoginAsync(user, info);
+                    if (userLoginsInfoResult.Succeeded)
+                    {
+                        await _signInManager.SignInAsync(user, true, info.LoginProvider);
+                    }
+                }
+                else
+                {
+                    // if login failed delete the created user
+                    await _userManager.DeleteAsync(user);
+
+                }
+                return RedirectToAction("Login");
+            }
+
+
+            // if login successded
+            return RedirectToAction("Index", "Home");
         }
     }
 }
