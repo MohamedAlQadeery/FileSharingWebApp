@@ -133,6 +133,15 @@ namespace FileSharingWeb.Resources.Views.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Profile.
+        /// </summary>
+        public static string profile {
+            get {
+                return ResourceManager.GetString("profile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Register.
         /// </summary>
         public static string Register {
@@ -147,6 +156,15 @@ namespace FileSharingWeb.Resources.Views.Shared {
         public static string Uploads {
             get {
                 return ResourceManager.GetString("Uploads", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File Sharing.
+        /// </summary>
+        public static string website_title {
+            get {
+                return ResourceManager.GetString("website_title", resourceCulture);
             }
         }
     }

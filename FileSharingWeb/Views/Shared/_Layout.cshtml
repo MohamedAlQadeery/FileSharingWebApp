@@ -124,12 +124,27 @@
                     else
                     {
 
-                        <li><a class="nav-link px-2 @Html.ActiveClass("Account","Profile")" asp-action="Profile"
-                            asp-controller="Account" asp-route-name=@User.Identity.Name>@User.Identity.Name</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                                @User.Identity.Name
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="nav-link px-2 ml-2 dropdown-item" role="button" asp-action="Profile"
+                                    asp-controller="Profile">@lang["profile"]</a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a asp-controller="Account" asp-action="Logout" class="nav-link px-2 ml-2 dropdown-item"
+                                    role="button">@lang["Logout"]</a>
+                                </li>
+
+
+
+                            </ul>
                         </li>
-                        <li><a asp-controller="Account" asp-action="Logout"
-                            class="nav-link px-2 text-white">@lang["Logout"]</a>
-                        </li>
+
                     }
 
 

@@ -119,21 +119,7 @@ namespace FileSharingWeb.Controllers
 
         }
 
-        [Authorize]
-        [HttpGet]
-        public async Task<IActionResult> Profile(string name)
-        {
-            var user = await _userManager.Users.Where(u => u.UserName == name)
-            .Select(u => new UserVM { Username = u.UserName, Email = u.Email })
-            .FirstOrDefaultAsync();
-            if (user == null)
-            {
-                return NotFound();
-            }
 
-            return View(user);
-
-        }
 
 
 
@@ -144,7 +130,7 @@ namespace FileSharingWeb.Controllers
         }
 
 
-       
+
         public async Task<IActionResult> ExternalLoginCallBack()
         {
             var info = await _signInManager.GetExternalLoginInfoAsync();
