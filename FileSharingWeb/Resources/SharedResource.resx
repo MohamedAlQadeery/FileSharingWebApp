@@ -141,4 +141,16 @@
   <data name="confirm_password_error" xml:space="preserve">
     <value>Password does not match</value>
   </data>
+  <data name="first_name" xml:space="preserve">
+    <value>First Name</value>
+  </data>
+  <data name="last_name" xml:space="preserve">
+    <value>Last Name</value>
+  </data>
+  <data name="new_password" xml:space="preserve">
+    <value>New Password</value>
+  </data>
+  <data name="old_password" xml:space="preserve">
+    <value>Old Password</value>
+  </data>
 </root>

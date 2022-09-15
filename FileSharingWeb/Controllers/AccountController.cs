@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using FileSharingWeb.Models;
 using FileSharingWeb.Resources;
 using FileSharingWeb.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -18,11 +19,11 @@ namespace FileSharingWeb.Controllers
 
     public class AccountController : Controller
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
+        private readonly UserManager<AppUser> _userManager;
         private readonly IStringLocalizer<AccountController> _localizer;
 
-        public AccountController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IStringLocalizer<AccountController> localizer)
+        public AccountController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, IStringLocalizer<AccountController> localizer)
         {
             _userManager = userManager;
             _localizer = localizer;
@@ -52,10 +53,12 @@ namespace FileSharingWeb.Controllers
 
             }
 
-            var user = new IdentityUser()
+            var user = new AppUser()
             {
                 UserName = registerVM.Username,
                 Email = registerVM.Email,
+                FirstName = registerVM.FirstName,
+                LastName = registerVM.LastName
 
             };
 
@@ -113,7 +116,7 @@ namespace FileSharingWeb.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        private IdentityUser IsEmailExist(string email)
+        private AppUser IsEmailExist(string email)
         {
             return _userManager.Users.FirstOrDefault(u => u.Email == email);
 
@@ -147,10 +150,12 @@ namespace FileSharingWeb.Controllers
             if (!exLoginResult.Succeeded)
             {
 
-                var user = new IdentityUser
+                var user = new AppUser
                 {
                     Email = info.Principal.FindFirstValue(ClaimTypes.Email),
-                    UserName = info.Principal.FindFirstValue(ClaimTypes.Email)
+                    UserName = info.Principal.FindFirstValue(ClaimTypes.Email),
+                    FirstName = info.Principal.FindFirstValue(ClaimTypes.GivenName),
+                    LastName = info.Principal.FindFirstValue(ClaimTypes.Surname)
                 };
 
                 var createUserResult = await _userManager.CreateAsync(user);

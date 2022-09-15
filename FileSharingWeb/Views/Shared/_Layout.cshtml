@@ -5,6 +5,7 @@
     //return url for the serever to redirect
     var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}";
     bool isArabic = requestCulture.RequestCulture.Culture.Name == "ar-SA" ? true : false;
+
 }
 
 <!DOCTYPE html>
@@ -127,7 +128,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
-                                @User.Identity.Name
+                                @lang["account"]
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="nav-link px-2 ml-2 dropdown-item" role="button" asp-action="Profile"

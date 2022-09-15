@@ -1,45 +1,63 @@
-﻿@model FileSharingWeb.ViewModels.UserVM
+﻿@using FileSharingWeb.ViewModels
+@model FileSharingWeb.ViewModels.UserVM
 
 @{
-    ViewData["Title"] = "Profile";
+    ViewData["Title"] = lang["profile"];
+
 }
 
-<!-- Start Skill Section -->
-<section class="st-skill-wrap st-section-top">
+<section class="st-contact-wrap st-gray-bg st-section" id="contact">
+    <div class="container">
+        <div class="st-section-heading st-style2 text-center">
+            <h2>@lang["profile"]</h2>
+            <div class="st-seperator">
+                <div class="st-seperator-left-bar wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.2s"></div>
+                <img src="../assets/img/dark-img/seperator-icon.png" alt="demo" class="st-seperator-icon">
+                <div class="st-seperator-right-bar wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.2s"></div>
+            </div>
+            <p>@lang["profile_desc"]</p>
+        </div>
+    </div>
     <div class="container">
         <div class="row">
             <div class="col-lg-6">
-                <div class="st-vertical-middle">
-                    <div class="st-vertical-middle-in wow fadeInLeft" data-wow-duration="0.8s" data-wow-delay="0.2s">
-                        <div class="st-skill-img text-center">
-                            <img src="~/images/profile.png" alt="demo">
-                        </div>
+                <h3>@lang["profile_header"]</h3>
+                <form asp-action="Profile" method="post">
+                    <div asp-validation-summary="ModelOnly" class=" text-danger"></div>
+
+                    <div class="form-group">
+                        <label asp-for="Username" class="control-label"></label>
+                        <input asp-for="Username" class="form-control" />
+                        <span asp-validation-for="Username" class="text-danger"></span>
                     </div>
-                </div>
+                    <div class="form-group">
+                        <label asp-for="FirstName" class="control-label"></label>
+                        <input asp-for="FirstName" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="LastName" class="control-label"></label>
+                        <input asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+
+
+
+                    <div class="form-group ">
+                        <input type="submit" value="@lang["update_btn"]" class="btn btn-primary" />
+
+                    </div>
+                </form>
             </div>
             <div class="col-lg-6">
-                <div class="st-section-heading st-style2 st-type2">
-                    <h2>User Profile</h2>
-
-                </div>
-                <div class="st-progressbar-wrap">
-                    <div class="st-single-progressbar">
-                        <div class="st-progressbar-meta">
-                            <h3 class="st-progressbar-title">Username : </h3>
-                            <h3 class="st-progressbar-title text-start">@Model.Username</h3>
-
-                        </div>
-                        <div class="st-progressbar-meta">
-                            <h3 class="st-progressbar-title">Email : </h3>
-                            <h3 class="st-progressbar-title">@Model.Email</h3>
-
-                        </div>
-
-                    </div><!-- .st-single-progressbar -->
-
-                </div>
+                <partial name="_ChangePasswordPartial" model="new ChangePasswordVM()">
             </div>
+
         </div>
     </div>
 </section>
-<!-- End Skill Section -->
+
+
+@section Scripts {
+@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

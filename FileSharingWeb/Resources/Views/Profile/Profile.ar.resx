@@ -117,40 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="confirm_password" xml:space="preserve">
-    <value>تأكيد كلمة المرور</value>
+  <data name="change_password_header" xml:space="preserve">
+    <value>تغير كلمة المرور</value>
   </data>
-  <data name="confirm_password_error" xml:space="preserve">
-    <value>كلمة المرور غير مطابقة</value>
+  <data name="profile" xml:space="preserve">
+    <value>الملف الشخصي</value>
   </data>
-  <data name="email" xml:space="preserve">
-    <value>البريد الالكتروني</value>
+  <data name="profile_desc" xml:space="preserve">
+    <value>هنا يمكنك تحديث بياناتك الشخصية</value>
   </data>
-  <data name="email_error" xml:space="preserve">
-    <value>{0} يجب انه يكون صحيح</value>
+  <data name="profile_header" xml:space="preserve">
+    <value>تحديث البيانات الشخصية</value>
   </data>
-  <data name="password" xml:space="preserve">
-    <value>كلمة المرور</value>
+  <data name="update" xml:space="preserve">
+    <value>تحديث</value>
   </data>
-  <data name="password_type_error" xml:space="preserve">
-    <value>{0} يجب ان تكون صحيحة</value>
-  </data>
-  <data name="required_error" xml:space="preserve">
-    <value>{0} مطلوب</value>
-  </data>
-  <data name="username" xml:space="preserve">
-    <value>اسم المستخدم</value>
-  </data>
-  <data name="first_name" xml:space="preserve">
-    <value>الاسم الاول</value>
-  </data>
-  <data name="last_name" xml:space="preserve">
-    <value>الاسم الاخير</value>
-  </data>
-  <data name="new_password" xml:space="preserve">
-    <value>كلمة المرور الجديدة</value>
-  </data>
-  <data name="old_password" xml:space="preserve">
-    <value>كلمة المرور القديمة</value>
+  <data name="update_btn" xml:space="preserve">
+    <value>تحديث</value>
   </data>
 </root>

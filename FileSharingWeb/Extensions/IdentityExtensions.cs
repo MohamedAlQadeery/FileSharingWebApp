@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FileSharingWeb.Data;
+using FileSharingWeb.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace FileSharingWeb.Extensions
@@ -11,7 +12,7 @@ namespace FileSharingWeb.Extensions
     {
         public static IServiceCollection AddIdentityService(this IServiceCollection service, IConfiguration config)
         {
-            service.AddIdentity<IdentityUser, IdentityRole>(options =>
+            service.AddIdentity<AppUser, IdentityRole>(options =>
             {
                 options.Password.RequiredUniqueChars = 0;
                 options.Password.RequireUppercase = false;

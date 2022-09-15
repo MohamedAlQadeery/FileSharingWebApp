@@ -13,6 +13,12 @@ namespace FileSharingWeb.ViewModels
         [Required(ErrorMessageResourceName = "required_error", ErrorMessageResourceType = typeof(SharedResource))]
         [Display(Name = "username", ResourceType = typeof(SharedResource))]
         public string Username { get; set; }
+        [Required(ErrorMessageResourceName = "required_error", ErrorMessageResourceType = typeof(SharedResource))]
+        [Display(Name = "first_name", ResourceType = typeof(SharedResource))]
+        public string FirstName { get; set; }
+        [Required(ErrorMessageResourceName = "required_error", ErrorMessageResourceType = typeof(SharedResource))]
+        [Display(Name = "last_name", ResourceType = typeof(SharedResource))]
+        public string LastName { get; set; }
 
         [EmailAddress(ErrorMessageResourceName = "email_error", ErrorMessageResourceType = typeof(SharedResource))]
         [Required(ErrorMessageResourceName = "required_error", ErrorMessageResourceType = typeof(SharedResource))]
