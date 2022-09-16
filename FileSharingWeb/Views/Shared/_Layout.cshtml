@@ -6,6 +6,7 @@
     var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}";
     bool isArabic = requestCulture.RequestCulture.Culture.Name == "ar-SA" ? true : false;
 
+    var username = User.Identity.IsAuthenticated ? User.GetUserName() : "";
 }
 
 <!DOCTYPE html>
@@ -128,7 +129,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
-                                @lang["account"]
+                                @username
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="nav-link px-2 ml-2 dropdown-item" role="button" asp-action="Profile"
@@ -158,6 +159,7 @@
     </header>
 
     <div class="st-content">
+
 
         @RenderBody()
 

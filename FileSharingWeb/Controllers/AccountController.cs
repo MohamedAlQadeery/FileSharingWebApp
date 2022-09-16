@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using FileSharingWeb.Extensions;
 using FileSharingWeb.Models;
 using FileSharingWeb.Resources;
 using FileSharingWeb.ViewModels;
@@ -74,6 +75,7 @@ namespace FileSharingWeb.Controllers
             }
 
             await _signInManager.SignInAsync(user, true);
+
             return RedirectToAction("Index", "Home");
 
         }
@@ -81,6 +83,7 @@ namespace FileSharingWeb.Controllers
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
+            Response.Cookies.Delete("username");
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
 
@@ -100,6 +103,7 @@ namespace FileSharingWeb.Controllers
                 return View(loginVM);
             }
 
+
             var result = await _signInManager.PasswordSignInAsync(user.UserName, loginVM.Password, true, true);
             if (!result.Succeeded)
             {
@@ -108,12 +112,20 @@ namespace FileSharingWeb.Controllers
                 return View(loginVM);
             }
 
+            //store full name in cookies 
+            //StoreUsernameInCookies();
             if (!string.IsNullOrEmpty(returnUrl))
             {
                 return LocalRedirect(returnUrl);
             }
 
             return RedirectToAction("Index", "Home");
+        }
+
+        private void StoreUsernameInCookies()
+        {
+
+            Response.Cookies.Append("username", User.GetUserName(), new CookieOptions() { Expires = DateTime.Now.AddDays(7) });
         }
 
         private AppUser IsEmailExist(string email)
@@ -164,6 +176,7 @@ namespace FileSharingWeb.Controllers
                     var userLoginsInfoResult = await _userManager.AddLoginAsync(user, info);
                     if (userLoginsInfoResult.Succeeded)
                     {
+
                         await _signInManager.SignInAsync(user, true, info.LoginProvider);
                     }
                 }
@@ -173,11 +186,13 @@ namespace FileSharingWeb.Controllers
                     await _userManager.DeleteAsync(user);
 
                 }
+
                 return RedirectToAction("Login");
             }
 
 
             // if login successded
+
             return RedirectToAction("Index", "Home");
         }
     }

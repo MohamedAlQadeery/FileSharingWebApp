@@ -5532,3 +5532,8 @@ blockquote {
   ul.nav.col-12.col-lg-auto.me-lg-auto.mb-2.justify-content-center.mb-md-0.rtl {
     padding-left: 305px;
   }
+
+  .text-danger.alert.alert-danger.validation-summary-errors.text-center ul {
+    list-style: none;
+    margin: 0;
+}

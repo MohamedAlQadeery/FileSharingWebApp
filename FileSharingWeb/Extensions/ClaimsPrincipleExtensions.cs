@@ -12,5 +12,11 @@ namespace FileSharingWeb.Extensions
         {
             return user.FindFirstValue(ClaimTypes.NameIdentifier);
         }
+        public static string GetUserName(this ClaimsPrincipal user)
+        {
+            return user.FindFirstValue(ClaimTypes.Name);
+        }
+
+
     }
 }

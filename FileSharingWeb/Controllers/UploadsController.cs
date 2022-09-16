@@ -9,10 +9,12 @@ using FileSharingWeb.Extensions;
 using FileSharingWeb.Helpers;
 using FileSharingWeb.Interfaces.Services;
 using FileSharingWeb.Models;
+using FileSharingWeb.Resources;
 using FileSharingWeb.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
 namespace FileSharingWeb.Controllers
@@ -22,8 +24,11 @@ namespace FileSharingWeb.Controllers
     {
         private readonly IFileUploadService _fileUploadService;
         private readonly IUploadsService _uploadsService;
-        public UploadsController(IFileUploadService fileUploadService, IUploadsService uploadsService)
+        private readonly IStringLocalizer<SharedResource> _stringLocalizer;
+        public UploadsController(IFileUploadService fileUploadService, IUploadsService uploadsService,
+         IStringLocalizer<SharedResource> stringLocalizer)
         {
+            _stringLocalizer = stringLocalizer;
             _uploadsService = uploadsService;
 
             _fileUploadService = fileUploadService;
@@ -76,7 +81,7 @@ namespace FileSharingWeb.Controllers
             _uploadsService.Create(upload);
             if (!await _uploadsService.SaveAllAsync()) return View(fileInput);
 
-            TempData["uploaded_success"] = "Your file has been uploaded successfully!";
+            TempData["uploaded_success"] = _stringLocalizer["uploaded_success"].Value;
             return RedirectToAction("Create");
         }
 
@@ -135,7 +140,7 @@ namespace FileSharingWeb.Controllers
         {
             if (searchParams.Term == null)
             {
-                TempData["search_empty"] = "File name cant be empty";
+                TempData["search_empty"] = _stringLocalizer["file_cant_be_empty"].Value;
                 return RedirectToAction("Index", "Home");
             }
 

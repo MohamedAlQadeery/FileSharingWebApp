@@ -153,4 +153,13 @@
   <data name="old_password" xml:space="preserve">
     <value>Old Password</value>
   </data>
+  <data name="success_message" xml:space="preserve">
+    <value>Opreation completed successfully</value>
+  </data>
+  <data name="file_cant_be_empty" xml:space="preserve">
+    <value>File name cant be empty</value>
+  </data>
+  <data name="uploaded_success" xml:space="preserve">
+    <value>Your file has been uploaded successfully!</value>
+  </data>
 </root>

@@ -153,4 +153,13 @@
   <data name="old_password" xml:space="preserve">
     <value>كلمة المرور القديمة</value>
   </data>
+  <data name="success_message" xml:space="preserve">
+    <value>تمت العملية بنجاح</value>
+  </data>
+  <data name="file_cant_be_empty" xml:space="preserve">
+    <value>يجب ان تدخل اسم الملف</value>
+  </data>
+  <data name="uploaded_success" xml:space="preserve">
+    <value>تم رفع الملف بنجاح !</value>
+  </data>
 </root>

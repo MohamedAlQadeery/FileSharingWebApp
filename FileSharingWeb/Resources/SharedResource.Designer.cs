@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FileSharingWeb.Resources {
+namespace FileSharingWeb {
     using System;
     
     
@@ -97,6 +97,15 @@ namespace FileSharingWeb.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to File name cant be empty.
+        /// </summary>
+        public static string file_cant_be_empty {
+            get {
+                return ResourceManager.GetString("file_cant_be_empty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to First Name.
         /// </summary>
         public static string first_name {
@@ -156,6 +165,24 @@ namespace FileSharingWeb.Resources {
         public static string required_error {
             get {
                 return ResourceManager.GetString("required_error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Opreation completed successfully.
+        /// </summary>
+        public static string success_message {
+            get {
+                return ResourceManager.GetString("success_message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your file has been uploaded successfully!.
+        /// </summary>
+        public static string uploaded_success {
+            get {
+                return ResourceManager.GetString("uploaded_success", resourceCulture);
             }
         }
         

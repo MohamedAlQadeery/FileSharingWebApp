@@ -4,11 +4,13 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using FileSharingWeb.Models;
+using FileSharingWeb.Resources;
 using FileSharingWeb.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
 namespace FileSharingWeb.Controllers
@@ -17,9 +19,13 @@ namespace FileSharingWeb.Controllers
     public class ProfileController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
+        private readonly IStringLocalizer<SharedResource> _stringLocalizer;
 
-        public ProfileController(UserManager<AppUser> userManager)
+        public ProfileController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IStringLocalizer<SharedResource> stringLocalizer)
         {
+            _stringLocalizer = stringLocalizer;
+            _signInManager = signInManager;
             _userManager = userManager;
 
         }
@@ -62,10 +68,20 @@ namespace FileSharingWeb.Controllers
             user.LastName = userVm.LastName;
             user.UserName = userVm.Username;
 
-            await _userManager.UpdateAsync(user);
+            var updatedResult = await _userManager.UpdateAsync(user);
+            if (!updatedResult.Succeeded)
+            {
+                foreach (var error in updatedResult.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+                return View(userVm);
+            }
 
-
-            return View(userVm);
+            // refresh signin to apply changes in cookies
+            await _signInManager.RefreshSignInAsync(user);
+            TempData["success_message"] = _stringLocalizer["success_message"].Value;
+            return RedirectToAction("Profile");
 
         }
 
@@ -87,7 +103,7 @@ namespace FileSharingWeb.Controllers
 
             await _userManager.UpdateAsync(user);
 
-
+            await _signInManager.RefreshSignInAsync(user);
             return RedirectToAction("Profile");
 
         }
