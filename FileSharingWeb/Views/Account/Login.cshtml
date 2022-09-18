@@ -9,7 +9,12 @@
 <div class="st-blog-wrap st-section">
     <div class="container">
         <h1>@lang["login"]</h1>
-
+        @if (TempData["password_changed_success"] != null)
+        {
+            <div class="alert alert-success text-center" role="alert">
+                @TempData["password_changed_success"]
+            </div>
+        }
 
         <hr /><br>
         <div class="row">

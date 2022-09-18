@@ -57,6 +57,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Profile.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\Views\Profile\_ChangePasswordPartial.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>_ChangePasswordPartial.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\Views\Shared\_Layout.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -116,6 +121,13 @@
     <EmbeddedResource Update="Resources\Views\Profile\Profile.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Profile.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Profile\_ChangePasswordPartial.ar.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Profile\_ChangePasswordPartial.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>_ChangePasswordPartial.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Views\Shared\_Layout.ar.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

@@ -88,24 +88,39 @@ namespace FileSharingWeb.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("ChangePassword")]
-        public async Task<IActionResult> ChangePassword(UserVM userVm)
+        public async Task<IActionResult> ChangePassword(ChangePasswordVM passwordVM)
         {
-            if (!ModelState.IsValid) return View(userVm);
+            if (!ModelState.IsValid) return View(passwordVM);
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
                 return NotFound();
             }
 
-            user.FirstName = userVm.FirstName;
-            user.LastName = userVm.LastName;
-            user.UserName = userVm.Username;
 
-            await _userManager.UpdateAsync(user);
 
-            await _signInManager.RefreshSignInAsync(user);
-            return RedirectToAction("Profile");
+            var result = await _userManager.ChangePasswordAsync(user, passwordVM.OldPassword, passwordVM.NewPassword);
+            if (result.Succeeded)
+            {
+                TempData["password_changed_success"] = _stringLocalizer["password_changed_success"].Value;
+                await _signInManager.SignOutAsync();
+                return RedirectToAction("Login", "Account");
 
+            }
+
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+
+            return View("Profile", new UserVM
+            {
+                Username = user.UserName,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName
+            });
         }
 
 
