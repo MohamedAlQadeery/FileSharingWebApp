@@ -181,4 +181,16 @@
     <value>Your password has been changed successfully</value>
     <comment/>
   </data>
+  <data name="add_password_header" xml:space="preserve">
+    <value>Add Password</value>
+    <comment/>
+  </data>
+  <data name="add_btn" xml:space="preserve">
+    <value>Add</value>
+    <comment/>
+  </data>
+  <data name="password_added_success" xml:space="preserve">
+    <value>Pasword has been added successfully</value>
+    <comment/>
+  </data>
 </root>

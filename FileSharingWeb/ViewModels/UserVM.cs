@@ -22,7 +22,7 @@ namespace FileSharingWeb.ViewModels
 
         public string Email { get; set; }
 
-
+        public bool HasLocalPassword { get; set; }
 
 
 
@@ -48,5 +48,14 @@ namespace FileSharingWeb.ViewModels
         [Compare("NewPassword", ErrorMessageResourceName = "confirm_password_error", ErrorMessageResourceType = typeof(SharedResource))]
         public string ConfirmNewPassword { get; set; }
 
+    }
+
+
+    public class AddPasswordVM
+    {
+        [Required(ErrorMessageResourceName = "required_error", ErrorMessageResourceType = typeof(SharedResource))]
+        [Display(Name = "password", ResourceType = typeof(SharedResource))]
+        [DataType(DataType.Password, ErrorMessageResourceName = "password_type_error", ErrorMessageResourceType = typeof(SharedResource))]
+        public string Password { get; set; }
     }
 }

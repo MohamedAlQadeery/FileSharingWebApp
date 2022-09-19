@@ -181,4 +181,16 @@
     <value>تم تغيير كلمة المرور بنجاح</value>
     <comment/>
   </data>
+  <data name="add_password_header" xml:space="preserve">
+    <value>اضافة كلمة مرور</value>
+    <comment/>
+  </data>
+  <data name="add_btn" xml:space="preserve">
+    <value>اضافة</value>
+    <comment/>
+  </data>
+  <data name="password_added_success" xml:space="preserve">
+    <value>تم اضافة كلمة المرور بنجاح</value>
+    <comment/>
+  </data>
 </root>

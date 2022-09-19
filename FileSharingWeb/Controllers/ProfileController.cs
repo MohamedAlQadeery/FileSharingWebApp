@@ -44,7 +44,9 @@ namespace FileSharingWeb.Controllers
                 Username = user.UserName,
                 Email = user.Email,
                 FirstName = user.FirstName,
-                LastName = user.LastName
+                LastName = user.LastName,
+                HasLocalPassword = user.PasswordHash != null
+
             };
 
             return View(userVm);
@@ -119,10 +121,53 @@ namespace FileSharingWeb.Controllers
                 Username = user.UserName,
                 Email = user.Email,
                 FirstName = user.FirstName,
-                LastName = user.LastName
+                LastName = user.LastName,
+                HasLocalPassword = user.PasswordHash != null
+
             });
         }
 
+
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("AddLocalPassword")]
+        public async Task<IActionResult> AddLocalPassword(AddPasswordVM passwordVM)
+        {
+            if (!ModelState.IsValid) return View(passwordVM);
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+
+
+            var result = await _userManager.AddPasswordAsync(user, passwordVM.Password);
+            if (result.Succeeded)
+            {
+                TempData["password_added_success"] = _stringLocalizer["password_added_success"].Value;
+                return RedirectToAction("Profile");
+
+            }
+
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+
+            return View("Profile", new UserVM
+            {
+                Username = user.UserName,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                HasLocalPassword = user.PasswordHash != null
+
+            });
+        }
 
 
 

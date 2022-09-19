@@ -20,6 +20,7 @@
         </div>
     </div>
     <div class="container">
+
         <div class="row">
             @if (TempData["success_message"] != null)
             {
@@ -28,6 +29,12 @@
                 </div>
             }
 
+            @if (TempData["password_added_success"] != null)
+            {
+                <div class="alert alert-success text-center" role="alert">
+                    @TempData["password_added_success"]
+                </div>
+            }
             @if (!ViewContext.ModelState.IsValid)
             {
                 <div asp-validation-summary="ModelOnly" class=" text-danger alert alert-danger text-center"></div>
@@ -62,7 +69,16 @@
                 </form>
             </div>
             <div class="col-lg-6">
-                <partial name="_ChangePasswordPartial" model="new ChangePasswordVM()">
+                @if (Model.HasLocalPassword)
+                {
+                    <partial name="_ChangePasswordPartial" model="new ChangePasswordVM()" />
+
+                }
+                else
+                {
+                    <partial name="_AddPasswordPartial" model="new AddPasswordVM()" />
+
+                }
             </div>
 
         </div>
